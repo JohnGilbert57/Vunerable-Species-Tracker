@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags%}
+{% block content %}
+{% load static %}
+<!DOCTYPE >
+<html>
+    <head>
+        <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/user_login.css' %}">
+    </head>
+    <body>
+        <div id = "formComponents">  
+            <img>
+                <img id = logo src = "{% static 'myapp/img/background/logo3.png' %}"width = "64" height="64" alt = "DBFinal" class="center">
+            </img>
+            <form action="" method="POST" id = "forms" class = "form-group">
+                <!--For now, this just submits the form, creates the user, and redirects to index-->
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="inputs">
+                    <input type = 'submit' name = "Log" id = "Log" value = 'Login' />
+                    <br>
+                    <br>
+                    <a href = "/createaccount">Create Account</a>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+
+{% endblock %}
