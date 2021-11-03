@@ -9,9 +9,7 @@
     </head>
     <body>
         <div id = "formComponents">  
-            <img>
-                <img id = logo src = "{% static 'myapp/img/background/logo3.png' %}"width = "64" height="64" alt = "DBFinal" class="center">
-            </img>
+            <h3>DBFinal Project</h3>
             <form action="" method="POST" id = "forms" class = "form-group">
                 <!--For now, this just submits the form, creates the user, and redirects to index-->
                 {% csrf_token %}
@@ -20,7 +18,6 @@
                     <input type = 'submit' name = "Log" id = "Log" value = 'Login' />
                     <br>
                     <br>
-                    <a href = "/createaccount">Create Account</a>
                 </div>
             </form>
         </div>

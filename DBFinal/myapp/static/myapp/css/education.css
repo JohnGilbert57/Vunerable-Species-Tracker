@@ -8,10 +8,6 @@ body{
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    background: url("../img/antelopecanyon.jpg");
-}
-body::-webkit-scrollbar{
-    display: none;
 }
 table {
     font-family: georgia, serif;
@@ -94,34 +90,25 @@ a:hover {
 #container{
     min-height:80%;
 }
-#manage{
+#sHead{
+    color: white;
+    border: 1px solid black;
+    background-color: #024230;
     text-align: center;
-    display: inline-block;
-    margin-left: 22%;
-    margin-top: 10%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+}
+#speciesTable{
+    position: relative;
+    border-collapse: collapse;
+    width: 65%;
+    left: 17%;
+    transform: translateY(50%);
+}
+#rowData{
+    color: black;
+    border: 1px solid black;
     padding-top: 1%;
     padding-bottom: 1%;
-    padding-left: 3%;
-    padding-right: 3%;
-    background-color: white;
-}
-#educate{
     text-align: center;
-    display: inline-block;
-    margin-left: 10%;
-    margin-top: 10%;
-    padding: 1%;
-    background-color: white;
-}
-
-.btn{
-    background-color: #024230;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    cursor: pointer;
 }
