@@ -7,7 +7,7 @@ body{
     position: relative;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
 }
 table {
     font-family: georgia, serif;
@@ -103,7 +103,7 @@ a:hover {
     border-collapse: collapse;
     width: 65%;
     left: 17%;
-    transform: translateY(50%);
+/*    transform: translateY(50%);*/
 }
 #rowData{
     color: black;

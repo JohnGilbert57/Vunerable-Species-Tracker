@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 from django.http.request import HttpRequest
+from myapp.database import *
 
 
 """Landing page Response Return"""
@@ -21,7 +22,11 @@ def baseUrl(response):
 
 def managePage(response):
     if response.user.is_authenticated:
-        return render(response,'./manage/manage.html')
+        species = db_query("select common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id");
+        context = {
+            'species': species
+        }
+        return render(response,'./manage/manage.html',context)
     return redirect('/login')
 
 def educationList(response):

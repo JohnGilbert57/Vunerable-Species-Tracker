@@ -21,17 +21,28 @@
                 <th id = sHead>Conservation Status</th>
                 <th id = sHead>Group</th>
                 <th id = sHead>Edit/Delete</th>
-                <tr>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
+		    {% for r in species %}<tr>
+			{% for c in r %}<td id=rowData>
+				{{c}}
+			</td>
+			{% endfor %}<td id=rowData>
+				<img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
+				<img id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
+			</td>
+			</tr>
+		    {% endfor %}
+                    <!--
+		    <td id = rowData></td> 
+                    <td id = rowData></td>
+                    <td id = rowData></td>
+                    <td id = rowData></td>
+                    <td id = rowData></td>
                     <td id = rowData>
                         <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
                         <img id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
                     </td>
-                </tr>
+		   
+                </tr>-->
             </table>
         </div>
         <div id = footer>
