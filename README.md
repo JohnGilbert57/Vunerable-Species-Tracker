@@ -28,7 +28,7 @@
         - MP4 Clip of Call
 # Where Data was Gathered
     - U.S. Fish and Wildlife Services
-    - (https://ecos.fws.gov/ecp/report/species-listings-by-tax-group?statusCategory=Listed&groupName=All%20Animals)
+    - https://ecos.fws.gov/ecp/report/species-listings-by-tax-group?statusCategory=Listed&groupName=All%20Animals
 
 # Additional Information
 # Installing Python 3.6 Unix/Linux Systems
