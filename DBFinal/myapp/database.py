@@ -5,3 +5,6 @@ def db_query(sql,bind_variables = []):
 	cursor.execute(sql,bind_variables)
 	rows = cursor.fetchall()
 	return rows
+
+def to_tuples(array):
+	return tuple(map(tuple, array))
