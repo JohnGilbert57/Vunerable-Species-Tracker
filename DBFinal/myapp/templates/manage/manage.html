@@ -1,9 +1,11 @@
+{% load crispy_forms_tags%}
 {% block content %}
 {% load static %}
 <!DOCTYPE >
 <html>
     <head>
         <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/manage.css' %}">
+        <script defer src = "{% static 'myapp/js/edit.js' %}"></script>
     </head>
     <body>
         <div id = header>
@@ -21,17 +23,54 @@
                 <th id = sHead>Conservation Status</th>
                 <th id = sHead>Group</th>
                 <th id = sHead>Edit/Delete</th>
-		    {% for r in species %}<tr>
-			{% for c in r %}<td id=rowData>
-				{{c}}
+		    {% for r in species %}
+            <tr>
+            <td id=rowData>
+				{{r.1}}
 			</td>
-			{% endfor %}<td id=rowData>
-				<img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
-				<img id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
+            <td id=rowData>
+				{{r.2}}
+			</td>
+            <td id=rowData>
+				{{r.3}}
+			</td>
+            <td id=rowData>
+				{{r.4}}
+			</td>
+            <td id=rowData>
+				{{r.5}}
+			</td>
+            <td id=rowData>
+                    <button data-modal-open = "#modal " class = editordelete type="submit" value="Reply" name ="message_frm">
+                        <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
+                    </button>
+                <form method="POST" id = deleteForm>
+                    {% csrf_token %}
+                    <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
+                        <img type = submit id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
+                    </button>
+                </form>
 			</td>
 			</tr>
 		    {% endfor %}
             </table>
+        </div>
+        <div class = "modal" id = modal>
+            <div class = modalHeader>
+                <div class = title>
+                    Edit Species
+                </div>
+                <button data-close-button class = close>&times;</button>
+            </div>
+            <div class = modalBody>
+                <form action="" method="POST" id = "forms" class = "form-group">
+                    <div class = "form-components">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </div>
+                    <input submit-button id = "update" type = "button" name = "update" value = 'Submit' />
+                </form>
+            </div>
         </div>
         <div id = footer>
             <table>

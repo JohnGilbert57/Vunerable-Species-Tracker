@@ -112,5 +112,111 @@ a:hover {
     text-align: center;
 }
 #delete{
-    margin-left: 20%;
+    /* margin-left: 20%; */
+}
+.editordelete{
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+    width: 500px;
+    max-width: 80%;
+}
+.modal.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+.modalHeader{
+    padding: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+.modalHeader .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.modalHeader .close{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem
+}
+.modalBody {
+    text-align: center;  
+}
+
+#overlay{
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active{
+    pointer-events: all;
+    opacity: 1;
+}
+.form-components{
+    padding: 10px 15px;
+    border-bottom: 1px solid black;
+}
+#update{
+    margin: 0 auto;
+    width: 20%;
+    height: 35px;
+    background-color: #024230;;
+    margin-top: 2%;
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+#div_id_commonName{
+    display: flex;
+}
+#div_id_scientificName{
+    display: flex;
+    margin-top: 5%;
+}
+#div_id_region{
+    display: flex;
+    margin-top: 5%;
+}
+#div_id_conservationStatus{
+    display: flex;
+    margin-top: 5%;
+}
+#div_id_group{
+    display: flex;
+    margin-top: 5%;
+}
+
+label{
+    cursor: pointer;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: right;
+    width: 45%;
+    vertical-align: top;
+}
+
+#deleteForm{
+    display: inline;
 }

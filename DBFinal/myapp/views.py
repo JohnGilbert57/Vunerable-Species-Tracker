@@ -8,6 +8,8 @@ import datetime
 from django.utils import timezone
 from django.http.request import HttpRequest
 from myapp.database import *
+from .forms import EditSpeciesForm
+from .models import Species
 
 
 """Landing page Response Return"""
@@ -22,9 +24,14 @@ def baseUrl(response):
 
 def managePage(response):
     if response.user.is_authenticated:
-        species = db_query("select common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id");
+        form = EditSpeciesForm()
+        if response.method == "POST" and 'delete' in response.POST:
+            delete_key = response.POST.get('delete')
+            db_query('DELETE FROM SPECIES WHERE SPECIES_ID = %s', [delete_key])
+        species = db_query("select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id")
         context = {
-            'species': species
+            'species': species,
+            'form': form
         }
         return render(response,'./manage/manage.html',context)
     return redirect('/login')

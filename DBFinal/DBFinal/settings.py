@@ -146,3 +146,23 @@ STATICFILES_DIRS = [
 #STATIC_ROOT = os.path.join(BASE_DIR, 'myapp/static')
 LOGIN_REDIRECT_URL = "/landingpage"
 LOGOUT_REDIRECT_URL = "/login"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
