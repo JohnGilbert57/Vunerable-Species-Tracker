@@ -7,7 +7,7 @@ body{
     position: relative;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
 }
 table {
     font-family: georgia, serif;
@@ -72,7 +72,6 @@ a:hover {
 /*styles the footer of the website*/
 #footer{
     height: 130px; 
-    width: 100%;
     margin-top: 1.5%;
     /*have the footer at the bottom and stretch across*/
 
@@ -82,13 +81,14 @@ a:hover {
 
     /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
     width: 100%;
-    bottom: 0%;
     color: rgb(255, 255, 255);
     background-color: #024230;
     
 }
 #container{
     min-height:80%;
+    /*adjust this style accordingly when implementing filters since it will skew this initial padding*/
+    padding-top: 225px
 }
 #sHead{
     color: white;
@@ -103,7 +103,6 @@ a:hover {
     border-collapse: collapse;
     width: 65%;
     left: 17%;
-    transform: translateY(50%);
 }
 #rowData{
     color: black;
@@ -112,3 +111,5 @@ a:hover {
     padding-bottom: 1%;
     text-align: center;
 }
+
+

@@ -74,11 +74,9 @@ a:hover {
     height: 130px; 
     margin-top: 1.5%;
     /*have the footer at the bottom and stretch across*/
-
     /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
     position: relative;
     /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
-
     /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
     width: 100%;
     color: rgb(255, 255, 255);
@@ -88,7 +86,6 @@ a:hover {
 #container{
     min-height:80%;
     /*adjust this style accordingly when implementing filters since it will skew this initial padding*/
-    padding-top: 225px
 }
 #sHead{
     color: white;
@@ -110,9 +107,6 @@ a:hover {
     padding-top: 1%;
     padding-bottom: 1%;
     text-align: center;
-}
-#delete{
-    /* margin-left: 20%; */
 }
 .editordelete{
     border: none;
@@ -181,7 +175,7 @@ a:hover {
     margin: 0 auto;
     width: 20%;
     height: 35px;
-    background-color: #024230;;
+    background-color: #024230;
     margin-top: 2%;
     cursor:pointer;
     border: none;
@@ -216,7 +210,18 @@ label{
     width: 45%;
     vertical-align: top;
 }
-
 #deleteForm{
     display: inline;
+}
+#addSpecies{
+    width: 20%;
+    height: 5%;
+    background-color: #024230;
+    margin-top: 1%;
+    cursor: pointer;
+    color: white;
+    margin-left: 40.25%;
+    margin-right: auto;
+    margin-bottom: 1%;
+    font-weight: bold;
 }

@@ -16,6 +16,7 @@
             <a href = "{% url 'logout' %}">Logout</a>
         </div>
         <div id = container>
+            <button id = addSpecies>Add Species</button>
             <table id = speciesTable>
                 <th id = sHead>Common Name</th>
                 <th id = sHead>Scientific Name</th>
@@ -23,36 +24,36 @@
                 <th id = sHead>Conservation Status</th>
                 <th id = sHead>Group</th>
                 <th id = sHead>Edit/Delete</th>
-		    {% for r in species %}
-            <tr>
-            <td id=rowData>
-				{{r.1}}
-			</td>
-            <td id=rowData>
-				{{r.2}}
-			</td>
-            <td id=rowData>
-				{{r.3}}
-			</td>
-            <td id=rowData>
-				{{r.4}}
-			</td>
-            <td id=rowData>
-				{{r.5}}
-			</td>
-            <td id=rowData>
-                    <button data-modal-open = "#modal " class = editordelete type="submit" value="Reply" name ="message_frm">
-                        <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
-                    </button>
-                <form method="POST" id = deleteForm>
-                    {% csrf_token %}
-                    <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
-                        <img type = submit id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
-                    </button>
-                </form>
-			</td>
-			</tr>
-		    {% endfor %}
+                {% for r in species %}
+                <tr>
+                <td id=rowData>
+                    {{r.1}}
+                </td>
+                <td id=rowData>
+                    {{r.2}}
+                </td>
+                <td id=rowData>
+                    {{r.3}}
+                </td>
+                <td id=rowData>
+                    {{r.4}}
+                </td>
+                <td id=rowData>
+                    {{r.5}}
+                </td>
+                <td id=rowData>
+                        <button data-modal-open = "#modal " class = editordelete type="submit" value="Reply" name ="message_frm">
+                            <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
+                        </button>
+                    <form method="POST" id = deleteForm>
+                        {% csrf_token %}
+                        <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
+                            <img type = submit id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
+                        </button>
+                    </form>
+                </td>
+                </tr>
+                {% endfor %}
             </table>
         </div>
         <div class = "modal" id = modal>

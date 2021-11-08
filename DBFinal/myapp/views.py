@@ -8,7 +8,7 @@ import datetime
 from django.utils import timezone
 from django.http.request import HttpRequest
 from myapp.database import *
-from .forms import EditSpeciesForm
+from .forms import EditOrAddSpeciesForm
 from .models import Species
 
 
@@ -24,7 +24,7 @@ def baseUrl(response):
 
 def managePage(response):
     if response.user.is_authenticated:
-        form = EditSpeciesForm()
+        form = EditOrAddSpeciesForm()
         if response.method == "POST" and 'delete' in response.POST:
             delete_key = response.POST.get('delete')
             db_query('DELETE FROM SPECIES WHERE SPECIES_ID = %s', [delete_key])
@@ -38,5 +38,9 @@ def managePage(response):
 
 def educationList(response):
     if response.user.is_authenticated:
-        return render(response, './education/educationList.html')
+        mammals = db_query("select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id and sg.group_name = 'Mammals'")
+        context = {
+            'mammals': mammals
+        }
+        return render(response, './education/educationList.html', context)
     return redirect('/login')

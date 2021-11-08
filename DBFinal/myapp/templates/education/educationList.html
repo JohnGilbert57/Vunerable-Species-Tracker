@@ -20,38 +20,40 @@
                 <th id = sHead>Region</th>
                 <th id = sHead>Conservation Status</th>
                 <th id = sHead>Group</th>
+                {% for r in mammals %}
                 <tr>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
-                    <td id = rowData>Fill In Here</td>
+                    <td id = rowData>{{r.1}}</td>
+                    <td id = rowData>{{r.2}}</td>
+                    <td id = rowData>{{r.3}}</td>
+                    <td id = rowData>{{r.4}}</td>
+                    <td id = rowData>{{r.5}}</td>
                 </tr>
+                {% endfor %}
             </table>
         </div>
-
-        <table id = footer>
-            <tr>
-                <th>Name</th> <!--The name of the individual-->
-                <th>Email</th> <!--Their email (with hyperlink)-->
-                <th>GitHub ID</th> <!--Their GitHub ID (with hyperlink)-->
-            </tr>
-            <tr>
-                <td>Johnny Gilbert</td>
-                <td><a href="mailto: jg480318@ohio.edu">jg480318@ohio.edu</a></td>
-                <td><a href=https://github.com/JohnGilbert57>JohnGilbert57</a></td>
-            </tr>
-            <tr>
-                <td>Nathan Bennett</td>
-                <td><a href="mailto: nb566818@ohio.edu">nb566818@ohio.edu</a></td>
-                <td><a href=https://github.com/nbennett2019>nbennett2019</a></td>
-            </tr>
-            <tr>
-                <td>Nathaniel Buchanan</td>
-                <td><a href="mailto: nb333218@ohio.edu">nb333218@ohio.edu</a></td>
-                <td><a href=https://github.com/NathanielBuchanan>NathanielBuchanan</a></td></td>
-        </table>
-   
+        <div id = footer>
+            <table>
+                <tr>
+                    <th>Name</th> <!--The name of the individual-->
+                    <th>Email</th> <!--Their email (with hyperlink)-->
+                    <th>GitHub ID</th> <!--Their GitHub ID (with hyperlink)-->
+                </tr>
+                <tr>
+                    <td>Johnny Gilbert</td>
+                    <td><a href="mailto: jg480318@ohio.edu">jg480318@ohio.edu</a></td>
+                    <td><a href=https://github.com/JohnGilbert57>JohnGilbert57</a></td>
+                </tr>
+                <tr>
+                    <td>Nathan Bennett</td>
+                    <td><a href="mailto: nb566818@ohio.edu">nb566818@ohio.edu</a></td>
+                    <td><a href=https://github.com/nbennett2019>nbennett2019</a></td>
+                </tr>
+                <tr>
+                    <td>Nathaniel Buchanan</td>
+                    <td><a href="mailto: nb333218@ohio.edu">nb333218@ohio.edu</a></td>
+                    <td><a href=https://github.com/NathanielBuchanan>NathanielBuchanan</a></td></td>
+            </table>
+        </div>
     </body>
 </html>  
 {% endblock%}

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from .models import Species
 from myapp.database import *
 
-class EditSpeciesForm(forms.ModelForm):
+class EditOrAddSpeciesForm(forms.ModelForm):
     
     """creating a new hobby"""
     class Meta:
@@ -28,8 +28,6 @@ class EditSpeciesForm(forms.ModelForm):
         ]
         regions = getRegion()
         REGION = (
-            for r in region:
-                (r, r),
         )
         STATUS = (
         ('Endangered','Endangered'),
@@ -55,5 +53,3 @@ class EditSpeciesForm(forms.ModelForm):
             'conservationStatus': 'Conservation Status: ',
             'group': 'Group: '
         }
-
-        
