@@ -15,46 +15,58 @@
             <p>{{user.username}}</p>
             <a href = "{% url 'logout' %}">Logout</a>
         </div>
+        <div id = additionalOptions>
+            <p id = manageTitle>Additional Management Options</p>
+            <div id = buttonContainer>
+                <a id = navigate href = './regions'><button id = manageButton>Manage Regions</button></a>
+                <a id = navigate href = './statuses'><button id = manageButton>Manage Conservation Statuses</button></a>
+                <a id = navigate href = './groups'><button id = manageButton>Manage Animal Groups</button></a>
+            </div>
+        </div>
         <div id = container>
-            <button id = addSpecies data-modal-open = "#modal2">Add Species</button>
-            <table id = speciesTable>
-                <th id = sHead>Common Name</th>
-                <th id = sHead>Scientific Name</th>
-                <th id = sHead>Region</th>
-                <th id = sHead>Conservation Status</th>
-                <th id = sHead>Group</th>
-                <th id = sHead>Edit/Delete</th>
-                {% for r in species %}
-                <tr>
-                <td id=rowData>
-                    {{r.1}}
-                </td>
-                <td id=rowData>
-                    {{r.2}}
-                </td>
-                <td id=rowData>
-                    {{r.3}}
-                </td>
-                <td id=rowData>
-                    {{r.4}}
-                </td>
-                <td id=rowData>
-                    {{r.5}}
-                </td>
-                <td id=rowData>
-                        <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}', '{{r.2}}', '{{r.3}}', '{{r.4}}', '{{r.5}}')"class = editordelete type="submit">
-                            <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
-                        </button>
-                    <form method="POST" id = deleteForm>
-                        {% csrf_token %}
-                        <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
-                            <img type = submit id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
-                        </button>
-                    </form>
-                </td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div id = addContainer>
+                <button id = addSpecies data-modal-open = "#modal2">Add Species</button>
+            </div>
+            <div id = tableContainer>
+                <table id = speciesTable>
+                    <th id = sHead>Common Name</th>
+                    <th id = sHead>Scientific Name</th>
+                    <th id = sHead>Region</th>
+                    <th id = sHead>Conservation Status</th>
+                    <th id = sHead>Group</th>
+                    <th id = sHead>Edit/Delete</th>
+                    {% for r in species %}
+                    <tr>
+                    <td id=rowData>
+                        {{r.1}}
+                    </td>
+                    <td id=rowData>
+                        {{r.2}}
+                    </td>
+                    <td id=rowData>
+                        {{r.3}}
+                    </td>
+                    <td id=rowData>
+                        {{r.4}}
+                    </td>
+                    <td id=rowData>
+                        {{r.5}}
+                    </td>
+                    <td id=rowData>
+                            <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}', '{{r.2}}', '{{r.3}}', '{{r.4}}', '{{r.5}}')"class = editordelete type="submit">
+                                <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
+                            </button>
+                        <form method="POST" id = deleteForm>
+                            {% csrf_token %}
+                            <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
+                                <img type = submit id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
+                            </button>
+                        </form>
+                    </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
         <div class = "modal" id = modal2>
             <div class = modalHeader2>

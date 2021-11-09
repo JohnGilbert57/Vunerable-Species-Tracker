@@ -67,3 +67,18 @@ def educationList(response):
         }
         return render(response, './education/educationList.html', context)
     return redirect('/login')
+
+def manageRegion(response):
+    if response.user.is_authenticated:
+        return render(response, './manage/manageregions.html')
+    return redirect('/login')
+
+def manageGroups(response):
+    if response.user.is_authenticated:
+        return render(response, './manage/managegroups.html')
+    return redirect('/login')
+
+def manageStatuses(response):
+    if response.user.is_authenticated:
+        return render(response, './manage/managestatuses.html')
+    return redirect('/login')
