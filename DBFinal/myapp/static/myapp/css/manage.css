@@ -218,10 +218,65 @@ label{
     height: 5%;
     background-color: #024230;
     margin-top: 1%;
+    border: none;
     cursor: pointer;
     color: white;
     margin-left: 40.25%;
     margin-right: auto;
     margin-bottom: 1%;
     font-weight: bold;
+}
+.form-control{
+    width: 15em;
+}
+.modalHeader2{
+    padding: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+.modalHeader2 .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.modalHeader2 .close{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem
+}
+.modalBody2 {
+    text-align: center;  
+}
+#div_id_cName{
+    display: flex;
+}
+#div_id_sName{
+    display: flex;
+    margin-top: 5%;
+}
+#div_id_reg{
+    display: flex;
+    margin-top: 5%;
+}
+#div_id_cStatus{
+    display: flex;
+    margin-top: 5%;
+}
+#div_id_grp{
+    display: flex;
+    margin-top: 5%;
+}
+#addButton{
+    margin: 0 auto;
+    width: 20%;
+    height: 35px;
+    background-color: #024230;
+    margin-top: 2%;
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
 }

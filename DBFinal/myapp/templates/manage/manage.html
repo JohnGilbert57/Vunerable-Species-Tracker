@@ -5,7 +5,7 @@
 <html>
     <head>
         <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/manage.css' %}">
-        <script defer src = "{% static 'myapp/js/edit.js' %}"></script>
+        <script defer src = "{% static 'myapp/js/AddOrEditSpecies.js' %}"></script>
     </head>
     <body>
         <div id = header>
@@ -16,7 +16,7 @@
             <a href = "{% url 'logout' %}">Logout</a>
         </div>
         <div id = container>
-            <button id = addSpecies>Add Species</button>
+            <button id = addSpecies data-modal-open = "#modal2">Add Species</button>
             <table id = speciesTable>
                 <th id = sHead>Common Name</th>
                 <th id = sHead>Scientific Name</th>
@@ -42,7 +42,7 @@
                     {{r.5}}
                 </td>
                 <td id=rowData>
-                        <button data-modal-open = "#modal " class = editordelete type="submit" value="Reply" name ="message_frm">
+                        <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}', '{{r.2}}', '{{r.3}}', '{{r.4}}', '{{r.5}}')"class = editordelete type="submit">
                             <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
                         </button>
                     <form method="POST" id = deleteForm>
@@ -56,6 +56,23 @@
                 {% endfor %}
             </table>
         </div>
+        <div class = "modal" id = modal2>
+            <div class = modalHeader2>
+                <div class = title>
+                    Add Species
+                </div>
+                <button data-close-button class = close>&times;</button>
+            </div>
+            <div class = modalBody2>
+                <form action="" method="POST" id = "add" class = "form-group">
+                    <div class = "form-components">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </div>
+                    <input submit-button id = "addButton" type = "submit" name = "Create" value = 'Submit' />
+                </form>
+            </div>
+        </div>
         <div class = "modal" id = modal>
             <div class = modalHeader>
                 <div class = title>
@@ -64,12 +81,12 @@
                 <button data-close-button class = close>&times;</button>
             </div>
             <div class = modalBody>
-                <form action="" method="POST" id = "forms" class = "form-group">
+                <form action="" method="POST" id = "edit" class = "form-group">
                     <div class = "form-components">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {{ form2|crispy }}
                     </div>
-                    <input submit-button id = "update" type = "button" name = "update" value = 'Submit' />
+                    <button edit-button id = "update" type = "submit" name = "update" onclick="getSpeciesID()" value = "">Submit</button>
                 </form>
             </div>
         </div>

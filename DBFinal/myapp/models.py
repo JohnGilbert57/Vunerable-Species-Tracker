@@ -9,3 +9,9 @@ class Species(models.Model):
     conservationStatus = models.CharField(max_length=30)
     group = models.CharField(max_length=30)
 
+class ExistingSpecies(models.Model):
+    cName = models.CharField(max_length=30)
+    sName = models.CharField(max_length=30)
+    reg = models.CharField(max_length=30)
+    cStatus = models.CharField(max_length=30)
+    grp = models.CharField(max_length=30)
