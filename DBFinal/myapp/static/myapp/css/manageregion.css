@@ -86,3 +86,179 @@ a:hover {
     min-height:80%;
     /*adjust this style accordingly when implementing filters since it will skew this initial padding*/
 }
+#regionTable{
+    position: relative;
+    border-collapse: collapse;
+    width: 45%;
+}
+#region{
+    padding: 1%;
+    color: white;
+    border: 1px solid black;
+    background-color: #024230;
+    text-align: center;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    width: 70%
+}
+#editordelete{
+    color: white;
+    border: 1px solid black;
+    background-color: #024230;
+    text-align: center;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    width: 30%;
+}
+#tableContainer{
+    margin-left: 34.5%;
+    display: flex;
+}
+#addContainer{
+    margin-left: 42.25%;
+    display: block;
+    margin-bottom: 2%;
+}
+#addRegion{
+    width: 25%;
+    height: 35px;
+    background-color: #024230;
+    margin-top: 2%;
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+#rowData{
+    color: black;
+    border: 1px solid black;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: center;
+}
+.editordelete{
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+#deleteForm{
+    display: inline;
+    margin-left: 5%;
+}
+.modalHeader2{
+    padding: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+.modalHeader2 .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.modalHeader2 .close{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem
+}
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+    width: 500px;
+    max-width: 80%;
+}
+.modal.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+#overlay{
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active{
+    pointer-events: all;
+    opacity: 1;
+}
+#div_id_region{
+    display: flex;
+    margin-top: 5%;
+}
+.form-components{
+    padding: 10px 15px;
+    border-bottom: 1px solid black;
+    height: 4em;
+    justify-content: center;
+    display: flex;
+}
+label{
+    cursor: pointer;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: right;
+    width: 45%;
+    vertical-align: top;
+}
+#addButton{
+    margin: 0 auto;
+    width: 20%;
+    height: 35px;
+    background-color: #024230;
+    margin-top: 2%;
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin-left: 43%;
+}
+.modalHeader{
+    padding: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+.modalHeader .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.modalHeader .close{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem
+}
+.modalBody {
+    text-align: center;  
+}
+#div_id_reg{
+    display: flex;
+    margin-top: 5%;
+}
+#update{
+    margin: 0 auto;
+    width: 20%;
+    height: 35px;
+    background-color: #024230;
+    margin-top: 2%;
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}

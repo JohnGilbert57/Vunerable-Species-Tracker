@@ -53,9 +53,9 @@
                         {{r.5}}
                     </td>
                     <td id=rowData>
-                            <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}', '{{r.2}}', '{{r.3}}', '{{r.4}}', '{{r.5}}')"class = editordelete type="submit">
-                                <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
-                            </button>
+                        <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}', '{{r.2}}', '{{r.3}}', '{{r.4}}', '{{r.5}}')"class = editordelete type="submit">
+                            <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
+                        </button>
                         <form method="POST" id = deleteForm>
                             {% csrf_token %}
                             <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
@@ -81,7 +81,7 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                     </div>
-                    <input submit-button id = "addButton" type = "submit" name = "Create" value = 'Submit' />
+                    <input id = "addButton" type = "submit" name = "Create" value = 'Submit' />
                 </form>
             </div>
         </div>
@@ -98,7 +98,7 @@
                         {% csrf_token %}
                         {{ form2|crispy }}
                     </div>
-                    <button edit-button id = "update" type = "submit" name = "update" onclick="getSpeciesID()" value = "">Submit</button>
+                    <button id = "update" type = "submit" name = "update" value = "">Submit</button>
                 </form>
             </div>
         </div>

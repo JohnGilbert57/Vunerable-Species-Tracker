@@ -5,14 +5,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Species, ExistingSpecies
+from .models import *
 from myapp.database import *
 
 class AddSpeciesForm(forms.ModelForm):
     
     """creating a new hobby"""
     class Meta:
-        model = Species
+        model = AddSpecies
         fields = [
             'commonName',
             'scientificName',
@@ -42,7 +42,7 @@ class EditSpeciesForm(forms.ModelForm):
     
     """creating a new hobby"""
     class Meta:
-        model = ExistingSpecies
+        model = EditSpecies
         fields = [
             'cName',
             'sName',
@@ -66,4 +66,82 @@ class EditSpeciesForm(forms.ModelForm):
             'reg': 'Region: ',
             'cStatus': 'Conservation Status: ',
             'grp': 'Group: '
+        }
+
+class AddRegionForm(forms.ModelForm):
+    class Meta:
+        model = AddRegion
+        fields = [
+            'region'
+        ]
+        widgets = {
+            'region': forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels = {
+            'region': 'Region: '
+        }
+
+class EditRegionForm(forms.ModelForm):
+    class Meta:
+        model = EditRegion
+        fields = [
+            'reg'
+        ]
+        widgets = {
+            'reg': forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels = {
+            'reg': 'Region: '
+        }
+
+class AddCStatusForm(forms.ModelForm):
+    class Meta:
+        model = AddCStatus
+        fields = [
+            'status'
+        ]
+        widgets = {
+            'status': forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels = {
+            'status': 'Conservation Status: '
+        }
+
+class EditCStatusForm(forms.ModelForm):
+    class Meta:
+        model = EditCStatus
+        fields = [
+            'stat'
+        ]
+        widgets = {
+            'stat': forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels = {
+            'stat': 'Conservation Status: '
+        }
+
+class AddGroupForm(forms.ModelForm):
+    class Meta:
+        model = AddGroup
+        fields = [
+            'group'
+        ]
+        widgets = {
+            'group': forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels = {
+            'group': "Group: "
+        }
+
+class EditGroupForm(forms.ModelForm):
+    class Meta:
+        model = EditGroup
+        fields = [
+            'grp'
+        ]
+        widgets = {
+            'grp': forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels = {
+            'grp': "Group: "
         }

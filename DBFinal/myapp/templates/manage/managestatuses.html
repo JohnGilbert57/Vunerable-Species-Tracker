@@ -4,7 +4,8 @@
 <!DOCTYPE >
 <html>
     <head>
-        <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/manageregion.css' %}">
+        <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/managestatuses.css' %}">
+        <script defer src = "{% static 'myapp/js/AddOrEditStatus.js' %}"></script>
     </head>
     <body>
         <div id = header>
@@ -15,7 +16,65 @@
             <a href = "{% url 'logout' %}">Logout</a>
         </div>
         <div id = container>
-            
+            <div id = addContainer>
+                <button id = addStatus data-modal-open = "#modal2">Add Status</button>
+            </div>
+            <div id = tableContainer>
+                <table id = statusTable>
+                    <th id = status>Conservation Status</th>
+                    <th id = editordelete>Edit/Delete</th>
+                    {% for r in status %}
+                    <tr>
+                        <td id = rowData>{{r.1}}</td>
+                        <td id = rowData>
+                        <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}')"class = editordelete type="submit">
+                            <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
+                        </button>
+                        <form method="POST" id = deleteForm>
+                            {% csrf_token %}
+                            <button type = 'submit' name = delete value= '{{r.0}}' class = editordelete>
+                                <img type = submit id = delete src ="{% static 'myapp/svg/delete.svg' %}" alt = "not found">
+                            </button>
+                        </form>
+                        </td>
+                    </tr>                    
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class = "modal" id = modal2>
+            <div class = modalHeader2>
+                <div class = title>
+                    Add Conservation Status
+                </div>
+                <button data-close-button class = close>&times;</button>
+            </div>
+            <div class = modalBody2>
+                <form action="" method="POST" id = "add" class = "form-group">
+                    <div class = "form-components">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </div>
+                    <input id = "addButton" type = "submit" name = "Create" value = 'Submit' />
+                </form>
+            </div>
+        </div>
+        <div class = "modal" id = modal>
+            <div class = modalHeader>
+                <div class = title>
+                    Edit Conservation Status
+                </div>
+                <button data-close-button class = close>&times;</button>
+            </div>
+            <div class = modalBody>
+                <form action="" method="POST" id = "edit" class = "form-group">
+                    <div class = "form-components">
+                        {% csrf_token %}
+                        {{ form2|crispy }}
+                    </div>
+                    <button id = "update" type = "submit" name = "update" value = "">Submit</button>
+                </form>
+            </div>
         </div>
         <div id = footer>
             <table>

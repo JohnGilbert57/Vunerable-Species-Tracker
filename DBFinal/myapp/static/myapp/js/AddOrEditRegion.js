@@ -21,6 +21,8 @@ closeModalButtons.forEach(button => {
         closeModal(modal);
     });
 });
+
+
 function openModal(modal) {
     if (modal == null){
         return
@@ -28,6 +30,7 @@ function openModal(modal) {
     modal.classList.add('active')
     overlay.classList.add('active')
 }
+
 function closeModal(modal) {
     if (modal == null){
         return
@@ -35,33 +38,13 @@ function closeModal(modal) {
     modal.classList.remove('active')
     overlay.classList.remove('active')
 }
-function setSpeciesID(sId) {
+
+function setRegionID(regionID) {
     var setValue = document.getElementById("update")
-    setValue.value = sId
+    setValue.value = regionID
 }
-function setEditValues(id, commonName, scientificName, region, conservationStatus, group) {
-    document.getElementById("id_cName").value = commonName
-    document.getElementById("id_sName").value = scientificName
-    setSpeciesID(id)
-    setRegion = document.getElementById("id_reg")
-    setStatus = document.getElementById("id_cStatus")
-    setGroup = document.getElementById("id_grp")
-    for(var i = 0, j = setRegion.options.length; i < j; ++i) {
-        if(setRegion.options[i].innerHTML === region) {
-           setRegion.selectedIndex = i;
-           break;
-        }
-    }
-    for(var i = 0, j = setStatus.options.length; i < j; ++i) {
-        if(setStatus.options[i].innerHTML === conservationStatus) {
-           setStatus.selectedIndex = i;
-           break;
-        }
-    }
-    for(var i = 0, j = setGroup.options.length; i < j; ++i) {
-        if(setGroup.options[i].innerHTML === group) {
-           setGroup.selectedIndex = i;
-           break;
-        }
-    }
+
+function setEditValues(id, region) {
+    document.getElementById("id_reg").value = region
+    setRegionID(id)
 }
