@@ -6,7 +6,6 @@ body{
     FOR EVERY BROWSER*/
     position: relative;
     height: 100%;
-    overflow-x: hidden;
     /*overflow-y: hidden;*/
 }
 table {
@@ -315,13 +314,16 @@ label{
 }
 
 /* Filter Information */
+#filter{
+    background-color: #024230;
+}
+
 #filterFields{
     display: flex;
     justify-content: center;
     margin-top: 1.5%;
     margin-bottom: 0.5%;
-    background-color: #024230;
-    color: white;
+    color: rgb(255, 255, 255);
     cursor:pointer;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
@@ -333,12 +335,15 @@ label{
     font-size: 120%;
     font-weight: bold;
     margin-top: 5%;
+    padding-top: 0.005%;
+    color: white;
 }
 
 #filterButton{
     display: flex;
     margin-top: 0.05%;
     margin-bottom: 3%;
+    background-color: #ffffff;
 }
 
 #div_id_fCName{
