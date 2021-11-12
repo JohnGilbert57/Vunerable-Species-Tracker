@@ -1,5 +1,6 @@
 """Created forms that will be called to pass forms to the html"""
 # Johnny Gilbert
+# Nathaniel Buchanan
 # Ohio University
 # the format for the user login; creates the objects basesd upon the models and sets the data
 from django import forms
@@ -10,7 +11,7 @@ from myapp.database import *
 
 class AddSpeciesForm(forms.ModelForm):
     
-    """creating a new hobby"""
+    """creating a new species"""
     class Meta:
         model = AddSpecies
         fields = [
@@ -39,7 +40,8 @@ class AddSpeciesForm(forms.ModelForm):
         }
 
 class EditSpeciesForm(forms.ModelForm):
-    """creating a new hobby"""
+    
+    """creating a new species"""
     class Meta:
         model = EditSpecies
         fields = [
@@ -144,3 +146,41 @@ class EditGroupForm(forms.ModelForm):
         labels = {
             'grp': "Group: "
         }
+
+class FilterSpeciesForm(forms.ModelForm):
+    
+   # def init(self, *args, **kwargs):
+   #     super(FilterSpeciesForm, self).__init__(*args, **kwargs)
+    #    for key in self.fields:
+     #       self.fields[key].required = False
+            
+    class Meta:
+        # Set the model equal to FilterSpecies
+        model = FilterSpecies
+        fields = [
+            'fCName',
+            'fSName',
+            'fReg',
+            'fCStatus',
+            'fGrp'
+        ]
+        REGION = to_tuples(db_query('select 0, "---" UNION select region_id, region_name from region order by region_name'))
+        STATUS = to_tuples(db_query('select 0, "---" UNION select status_id, status_name from status order by status_name'))
+        GROUP = to_tuples(db_query('select 0, "---" UNION select group_id, group_name from species_group order by group_name'))
+        # Set region equal to a default with initial 
+        widgets = {
+            'fCName': forms.TextInput(attrs={"class": "form-control"}),
+            'fSName': forms.TextInput(attrs={"class": "form-control"}),
+            'fReg': forms.Select(attrs={"class": "form-control"}, choices = REGION),
+            'fCStatus': forms.Select(attrs={"class": "form-control"}, choices = STATUS),
+            'fGrp': forms.Select(attrs={"class": "form-control"}, choices = GROUP)
+        }
+        labels = {
+            'fCName': 'Common Name: ',
+            'fSName': 'Scientific Name: ',
+            'fReg': 'Region: ',
+            'fCStatus': 'Conservation Status: ',
+            'fGrp': 'Group: '
+        }
+
+            

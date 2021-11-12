@@ -1,4 +1,7 @@
-"""There are two models for each page so we can specify which div to grab when doing the javascript"""
+# Johnny Gilbert
+# Nathaniel Buchanan
+# Ohio University
+# the models used for the forms
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -35,3 +38,10 @@ class AddGroup(models.Model):
 
 class EditGroup(models.Model):
     grp = models.CharField(max_length = 30)
+# Class used to filter the species
+class FilterSpecies(models.Model):
+    fCName = models.CharField(max_length=30, blank=True)
+    fSName = models.CharField(max_length=30, blank=True)
+    fReg = models.CharField(max_length=30, blank=True, default="---")
+    fCStatus = models.CharField(max_length=30, blank=True, default="---")
+    fGrp = models.CharField(max_length=30, blank=True, default="---")

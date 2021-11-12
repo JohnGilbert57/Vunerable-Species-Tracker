@@ -313,3 +313,50 @@ label{
 #additionalOptions{
     margin-bottom: 2%;
 }
+
+/* Filter Information */
+#filterFields{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5%;
+    margin-bottom: 0.5%;
+    background-color: #024230;
+    color: white;
+    cursor:pointer;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    border: none;
+}
+
+#filterTitle{
+    text-align: center;
+    font-size: 120%;
+    font-weight: bold;
+    margin-top: 5%;
+}
+
+#filterButton{
+    display: flex;
+    margin-top: 0.05%;
+    margin-bottom: 3%;
+}
+
+#div_id_fCName{
+    display: flex;
+}
+
+#div_id_fSName{
+    display: flex;
+}
+
+#div_id_fReg{
+    display: flex;
+}
+
+#div_id_fCStatus{
+    display: flex;
+}
+
+#div_id_fGrp{
+    display: flex;
+}
