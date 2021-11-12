@@ -27,6 +27,20 @@
             <div id = addContainer>
                 <button id = addSpecies data-modal-open = "#modal2">Add Species</button>
             </div>
+            <div id = filter>
+                <div id = filterTitle>
+                    <p> Filter Options </p>
+                </div>
+                <form action="" method="GET" id = "filterOptions" class = "form-group">
+                    <div id = filterFields>
+                        {% csrf_token %}
+                        {{ form3|crispy }}
+                    </div>
+                    <div id= filterButton>
+                        <input submit-button id = "addButton" type = "submit" name = "Create" value = 'Filter' />
+                    </div>
+                </form>
+            </div>
             <div id = tableContainer>
                 <table id = speciesTable>
                     <th id = sHead>Common Name</th>

@@ -52,13 +52,50 @@ def managePage(response):
             delete_key = response.POST.get('delete')
             db_query('DELETE FROM SPECIES WHERE SPECIES_ID = %s', [delete_key])
             return HttpResponseRedirect(response.path_info)
+        
+        # Getting ahold of the query for species that we will run later
+        species = "select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id"
+        speciesParam = []       
+        #species = db_query("select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id")
+
+        # Statement used for filtering
+        if response.method == "GET":
+            # The first part of the statement is necessary b/c it is the default query
+            if "fCName" in response.GET and response.GET['fCName'] != "":
+                filterCName = response.GET['fCName']
+                # Must have percent sign BEFORE and AFTER the word they are attempting to search (Pattern Matching)
+                filterCName_PM = "%" + filterCName + "%"
+                species += " and common_name like %s"
+                speciesParam.append(filterCName_PM)
+            if "fSName" in response.GET and response.GET['fSName'] != "":
+                filterSName = response.GET['fSName']
+                # Must have percent sign BEFORE and AFTER the word they are attempting to search (Pattern Matching)
+                filterSName_PM = "%" + filterSName + "%"
+                species += " and scientific_name like %s"
+                speciesParam.append(filterSName_PM)
+            if "fReg" in response.GET and response.GET['fReg'] != '0':
+                filterReg = response.GET['fReg']
+                species += " and s.region_id = %s"
+                speciesParam.append(int(filterReg))
+            if "fCStatus" in response.GET and response.GET['fCStatus'] != '0':
+                filterCStatus = response.GET['fCStatus']
+                species += " and s.status_id = %s"
+                speciesParam.append(int(filterCStatus))
+            if "fGrp" in response.GET and response.GET['fGrp'] != '0':
+                filterGrp = response.GET['fGrp']
+                species += " and s.group_id = %s"
+                speciesParam.append(int(filterGrp))
+            
+        # The forms with the functions are below
         form = AddSpeciesForm()
         form2 = EditSpeciesForm()
-        species = db_query("select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id")
+        form3 = FilterSpeciesForm()
+        speciesData = db_query(species, speciesParam)
         context = {
-            'species': species,
+            'species': speciesData,
             'form': form,
             'form2': form2,
+            'form3': form3
         }
         return render(response,'./manage/manage.html',context)
     return redirect('/login')
