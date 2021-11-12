@@ -39,7 +39,6 @@ class AddSpeciesForm(forms.ModelForm):
         }
 
 class EditSpeciesForm(forms.ModelForm):
-    
     """creating a new hobby"""
     class Meta:
         model = EditSpecies

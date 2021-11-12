@@ -5,7 +5,7 @@
 <html>
     <head>
         <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/manageregion.css' %}">
-        <script defer src = "{% static 'myapp/js/AddOrEditRegion.js' %}"></script>
+        <script defer src = "{% static 'myapp/js/AddOrEditController.js' %}"></script>
     </head>
     <body>
         <div id = header>
@@ -27,7 +27,7 @@
                     <tr>
                         <td id = rowData>{{r.1}}</td>
                         <td id = rowData>
-                        <button data-modal-open = "#modal " onclick = "setEditValues('{{r.0}}', '{{r.1}}')"class = editordelete type="submit">
+                        <button data-modal-open = "#modal " onclick = "setRegionEditValues('{{r.0}}', '{{r.1}}')"class = editordelete type="submit">
                             <img id = edit src ="{% static 'myapp/svg/edit.svg' %}" alt = "not found">
                         </button>
                         <form method="POST" id = deleteForm>

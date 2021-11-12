@@ -10,6 +10,8 @@ from django.http.request import HttpRequest
 from myapp.database import *
 from .forms import *
 from django.http import HttpResponseRedirect
+from django.core.paginator import *
+
 
 """Landing page Response Return"""
 def landingpage(response):
@@ -56,7 +58,7 @@ def managePage(response):
         context = {
             'species': species,
             'form': form,
-            'form2': form2
+            'form2': form2,
         }
         return render(response,'./manage/manage.html',context)
     return redirect('/login')
@@ -149,6 +151,7 @@ def manageStatuses(response):
             db_query('DELETE FROM STATUS WHERE STATUS_ID = %s', [delete_key])
             return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'update' in response.POST:
+            print("here")
             form = EditCStatusForm(response.POST)
             if form.is_valid():
                 statusName = form.cleaned_data.get('stat')

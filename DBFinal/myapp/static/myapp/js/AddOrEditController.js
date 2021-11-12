@@ -39,7 +39,7 @@ function setSpeciesID(sId) {
     var setValue = document.getElementById("update")
     setValue.value = sId
 }
-function setEditValues(id, commonName, scientificName, region, conservationStatus, group) {
+function setSpeciesEditValues(id, commonName, scientificName, region, conservationStatus, group) {
     document.getElementById("id_cName").value = commonName
     document.getElementById("id_sName").value = scientificName
     setSpeciesID(id)
@@ -64,4 +64,32 @@ function setEditValues(id, commonName, scientificName, region, conservationStatu
            break;
         }
     }
+}
+function setGroupID(groupID) {
+    var setValue = document.getElementById("update")
+    setValue.value = groupID
+}
+
+function setGroupEditValues(id, group) {
+    document.getElementById("id_grp").value = group
+    setGroupID(id)
+}
+function setStatusID(statusId) {
+    var setValue = document.getElementById("update");
+    setValue.value = statusId;
+}
+
+function setStatusEditValues(id, region) {
+    document.getElementById("id_stat").value = region;
+    setStatusID(id);
+}
+
+function setRegionID(regionID) {
+    var setValue = document.getElementById("update")
+    setValue.value = regionID
+}
+
+function setRegionEditValues(id, region) {
+    document.getElementById("id_reg").value = region
+    setRegionID(id)
 }
