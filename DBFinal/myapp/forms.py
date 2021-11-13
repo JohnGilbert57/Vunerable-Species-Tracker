@@ -9,178 +9,65 @@ from django.contrib.auth.models import User
 from .models import *
 from myapp.database import *
 
-class AddSpeciesForm(forms.ModelForm):
-    
-    """creating a new species"""
-    class Meta:
-        model = AddSpecies
-        fields = [
-            'commonName',
-            'scientificName',
-            'region',
-            'conservationStatus',
-            'group'
-        ]
+class AddSpeciesForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
         REGION = to_tuples(db_query('select region_id,region_name from region'))
         STATUS = to_tuples(db_query('select status_id,status_name from status'))
         GROUP = to_tuples(db_query('select group_id,group_name from species_group'))
-        widgets = {
-            'commonName': forms.TextInput(attrs={"class": "form-control"}),
-            'scientificName': forms.TextInput(attrs={"class": "form-control"}),
-            'region': forms.Select(attrs={"class": "form-control"}, choices = REGION),
-            'conservationStatus': forms.Select(attrs={"class": "form-control"}, choices = STATUS),
-            'group': forms.Select(attrs={"class": "form-control"}, choices = GROUP)
-        }
-        labels = {
-            'commonName': 'Common Name: ',
-            'scientificName': 'Scientific Name: ',
-            'region': 'Region: ',
-            'conservationStatus': 'Conservation Status: ',
-            'group': 'Group: '
-        }
+        self.fields['region'].choices = REGION
+        self.fields['conservationStatus'].choices = STATUS
+        self.fields['group'].choices = GROUP
+    commonName = forms.CharField(label='Common Name', max_length=100)
+    scientificName = forms.CharField(label='Scientific Name', max_length=100)
+    region = forms.ChoiceField(label='Region')
+    conservationStatus = forms.ChoiceField(label='Conservation Status')
+    group = forms.ChoiceField(label='Group')
 
-class EditSpeciesForm(forms.ModelForm):
-    
-    """creating a new species"""
-    class Meta:
-        model = EditSpecies
-        fields = [
-            'cName',
-            'sName',
-            'reg',
-            'cStatus',
-            'grp'
-        ]
+class EditSpeciesForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
         REGION = to_tuples(db_query('select region_id,region_name from region'))
         STATUS = to_tuples(db_query('select status_id,status_name from status'))
         GROUP = to_tuples(db_query('select group_id,group_name from species_group'))
-        widgets = {
-            'cName': forms.TextInput(attrs={"class": "form-control"}),
-            'sName': forms.TextInput(attrs={"class": "form-control"}),
-            'reg': forms.Select(attrs={"class": "form-control"}, choices = REGION),
-            'cStatus': forms.Select(attrs={"class": "form-control"}, choices = STATUS),
-            'grp': forms.Select(attrs={"class": "form-control"}, choices = GROUP)
-        }
-        labels = {
-            'cName': 'Common Name: ',
-            'sName': 'Scientific Name: ',
-            'reg': 'Region: ',
-            'cStatus': 'Conservation Status: ',
-            'grp': 'Group: '
-        }
+        self.fields['reg'].choices = REGION
+        self.fields['cStatus'].choices = STATUS
+        self.fields['grp'].choices = GROUP
+    cName = forms.CharField(label='Common Name', max_length=100)
+    sName = forms.CharField(label='Scientific Name', max_length=100)
+    reg = forms.ChoiceField(label='Region')
+    cStatus = forms.ChoiceField(label='Conservation Status')
+    grp = forms.ChoiceField(label='Group')
 
-class AddRegionForm(forms.ModelForm):
-    class Meta:
-        model = AddRegion
-        fields = [
-            'region'
-        ]
-        widgets = {
-            'region': forms.TextInput(attrs={"class": "form-control"}),
-        }
-        labels = {
-            'region': 'Region: '
-        }
+class AddRegionForm(forms.Form):
+    region = forms.CharField(label='Region: ', max_length=100)
 
-class EditRegionForm(forms.ModelForm):
-    class Meta:
-        model = EditRegion
-        fields = [
-            'reg'
-        ]
-        widgets = {
-            'reg': forms.TextInput(attrs={"class": "form-control"}),
-        }
-        labels = {
-            'reg': 'Region: '
-        }
+class EditRegionForm(forms.Form):
+    reg = forms.CharField(label='Region: ', max_length=100)
 
-class AddCStatusForm(forms.ModelForm):
-    class Meta:
-        model = AddCStatus
-        fields = [
-            'status'
-        ]
-        widgets = {
-            'status': forms.TextInput(attrs={"class": "form-control"}),
-        }
-        labels = {
-            'status': 'Conservation Status: '
-        }
+class AddCStatusForm(forms.Form):
+    status = forms.CharField(label='Conservation Status: ', max_length=100)
 
-class EditCStatusForm(forms.ModelForm):
-    class Meta:
-        model = EditCStatus
-        fields = [
-            'stat'
-        ]
-        widgets = {
-            'stat': forms.TextInput(attrs={"class": "form-control"}),
-        }
-        labels = {
-            'stat': 'Conservation Status: '
-        }
+class EditCStatusForm(forms.Form):
+    stat = forms.CharField(label='Conservation Status: ', max_length=100)
 
-class AddGroupForm(forms.ModelForm):
-    class Meta:
-        model = AddGroup
-        fields = [
-            'group'
-        ]
-        widgets = {
-            'group': forms.TextInput(attrs={"class": "form-control"}),
-        }
-        labels = {
-            'group': "Group: "
-        }
+class AddGroupForm(forms.Form):
+    group = forms.CharField(label='Group: ', max_length=100)
 
-class EditGroupForm(forms.ModelForm):
-    class Meta:
-        model = EditGroup
-        fields = [
-            'grp'
-        ]
-        widgets = {
-            'grp': forms.TextInput(attrs={"class": "form-control"}),
-        }
-        labels = {
-            'grp': "Group: "
-        }
+class EditGroupForm(forms.Form):
+    grp = forms.CharField(label='Group: ', max_length=100)
 
-class FilterSpeciesForm(forms.ModelForm):
-    
-   # def init(self, *args, **kwargs):
-   #     super(FilterSpeciesForm, self).__init__(*args, **kwargs)
-    #    for key in self.fields:
-     #       self.fields[key].required = False
-            
-    class Meta:
-        # Set the model equal to FilterSpecies
-        model = FilterSpecies
-        fields = [
-            'fCName',
-            'fSName',
-            'fReg',
-            'fCStatus',
-            'fGrp'
-        ]
+class FilterSpeciesForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
         REGION = to_tuples(db_query('select 0, "---" UNION select region_id, region_name from region order by region_name'))
         STATUS = to_tuples(db_query('select 0, "---" UNION select status_id, status_name from status order by status_name'))
         GROUP = to_tuples(db_query('select 0, "---" UNION select group_id, group_name from species_group order by group_name'))
-        # Set region equal to a default with initial 
-        widgets = {
-            'fCName': forms.TextInput(attrs={"class": "form-control"}),
-            'fSName': forms.TextInput(attrs={"class": "form-control"}),
-            'fReg': forms.Select(attrs={"class": "form-control"}, choices = REGION),
-            'fCStatus': forms.Select(attrs={"class": "form-control"}, choices = STATUS),
-            'fGrp': forms.Select(attrs={"class": "form-control"}, choices = GROUP)
-        }
-        labels = {
-            'fCName': 'Common Name: ',
-            'fSName': 'Scientific Name: ',
-            'fReg': 'Region: ',
-            'fCStatus': 'Conservation Status: ',
-            'fGrp': 'Group: '
-        }
-
-            
+        self.fields['fReg'].choices = REGION
+        self.fields['fCStatus'].choices = STATUS
+        self.fields['fGrp'].choices = GROUP
+    fCName = forms.CharField(label='Common Name',required=False, max_length=100)
+    fSName = forms.CharField(label='Scientific Name',required=False, max_length=100)
+    fReg = forms.ChoiceField(label='Region')
+    fCStatus = forms.ChoiceField(label='Conservation Status')
+    fGrp = forms.ChoiceField(label='Group')
