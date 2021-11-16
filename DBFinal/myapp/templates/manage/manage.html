@@ -6,6 +6,15 @@
     <head>
         <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/manage.css' %}">
         <script defer src = "{% static 'myapp/js/AddOrEditController.js' %}"></script>
+	<script>
+		(function () {
+			window.onpageshow = function(event) {
+				if (event.persisted) {
+					window.location.reload();
+				}
+			};
+		})();
+	</script>
     </head>
     <body>
         <div id = header>
