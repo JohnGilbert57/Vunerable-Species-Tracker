@@ -12,8 +12,10 @@
             <p>DBFinal</p>  
         </div>
         <div id = credentials>
-            <p>{{user.username}}</p>
+            <p id = userName>{{user.username}}</p>
             <a href = "{% url 'logout' %}">Logout</a>
+            <br>
+            <a href = "../">Manage Page</a>
         </div>
         <div id = container>
             <div id = addContainer>
