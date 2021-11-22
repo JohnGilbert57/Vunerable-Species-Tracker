@@ -34,7 +34,15 @@ td{
     margin-top: 12%;
     margin-bottom: 3%;
 }
-
+.paginate{
+    color: black !important;
+}
+.paginate:hover{
+    color: blue !important;
+}
+.paginate-container{
+    margin-left: 18%;
+}
 /*used for the headings of the table to be bold and different color*/
 th{
     text-align: left;
