@@ -91,8 +91,13 @@ def managePage(response):
         form2 = EditSpeciesForm()
         form3 = FilterSpeciesForm()
         speciesData = db_query(species, speciesParam)
+        p = Paginator(speciesData,50)
+        page_number = 1
+        if "page" in response.GET:
+            page_number = response.GET['page']
+        speciesPaginate = p.get_page(page_number)
         context = {
-            'species': speciesData,
+            'speciesPaginate': speciesPaginate,
             'form': form,
             'form2': form2,
             'form3': form3

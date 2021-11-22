@@ -60,7 +60,7 @@
                     <th id = sHead>Conservation Status</th>
                     <th id = sHead>Group</th>
                     <th id = sHead>Edit/Delete</th>
-                    {% for r in species %}
+                    {% for r in speciesPaginate %}
                     <tr>
                     <td id=rowData>
                         {{r.1}}
@@ -92,6 +92,23 @@
                     {% endfor %}
                 </table>
             </div>
+	<div>
+	    <span class="paginate">
+		{% if speciesPaginate.has_previous %}
+		    <a class="paginate" href="?page=1">&laquo; first</a>
+		    <a class="paginate" href="?page={{ speciesPaginate.previous_page_number }}">previous</a>
+		{% endif %}
+
+		<span>
+		    Page {{ speciesPaginate.number }} of {{ speciesPaginate.paginator.num_pages }} 
+		</span>
+
+		{% if speciesPaginate.has_next %}
+		    <a class="paginate" href="?page={{ speciesPaginate.next_page_number }}">next</a>
+		    <a class="paginate" href="?page={{ speciesPaginate.paginator.num_pages }}">last &raquo;</a>
+		{% endif %}
+	    </span>
+	</div>
         </div>
         <div class = "modal" id = modal2>
             <div class = modalHeader2>
