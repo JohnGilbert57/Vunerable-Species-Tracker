@@ -59,7 +59,7 @@ def managePage(response):
         #species = db_query("select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id")
 
         # Statement used for filtering
-        if response.method == "GET":
+        if response.method == "GET" and 'filterTextBox' in response.GET:
             # The first part of the statement is necessary b/c it is the default query
             if "fCName" in response.GET and response.GET['fCName'] != "":
                 filterCName = response.GET['fCName']
@@ -107,9 +107,35 @@ def managePage(response):
 
 def educationList(response):
     if response.user.is_authenticated:
-        mammals = db_query("select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id and sg.group_name = 'Mammals'")
+        mammalsQuery = "select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id and sg.group_name = 'Mammals'"
+        mammalsParams = []
+        if response.method == "GET" and 'filterTextBox' in response.GET:
+            fCName = response.GET['fCommonName']
+            fCName = "%" + fCName + "%"
+            mammalsQuery += "and common_name like %s"
+            mammalsParams.append(fCName)
+            fSName = response.GET['fScientificName']
+            fSName = "%" + fSName + "%"
+            mammalsQuery += "and scientific_name like %s"
+            mammalsParams.append(fSName)
+            if "fRegion" in response.GET and response.GET['fRegion'] != '0':
+                fReg = response.GET['fRegion']
+                mammalsQuery += 'and s.region_id = %s'
+                mammalsParams.append(int(fReg))
+            if "fConservationStatus" in response.GET and response.GET['fConservationStatus'] != '0':
+                fCStatus = response.GET['fConservationStatus']
+                mammalsQuery += 'and s.status_id = %s'
+                mammalsParams.append(int(fCStatus))
+        mammals = db_query(mammalsQuery, mammalsParams)
+        filterListForm = FilterEducationListForm()
+        p = Paginator(mammals,50)
+        page_number = 1
+        if "page" in response.GET:
+            page_number = response.GET['page']
+        educatePaginate = p.get_page(page_number)
         context = {
-            'mammals': mammals
+            'educatePaginate': educatePaginate,
+            'filterListForm': filterListForm
         }
         return render(response, './education/educationList.html', context)
     return redirect('/login')
@@ -120,9 +146,13 @@ def manageRegion(response):
             form = AddRegionForm(response.POST)
             if form.is_valid():
                 region = form.cleaned_data.get('region')
-                newId = db_query('SELECT MAX(REGION_ID) FROM REGION')
-                newId = max(newId)[0] + 1
-                db_query('INSERT INTO REGION (REGION_ID, REGION_NAME) VALUES(%s, %s)', [newId, region])
+                existingRegion = db_query('SELECT REGION_NAME FROM REGION WHERE REGION_NAME = %s COLLATE NOCASE', [region])
+                if existingRegion == []:
+                    newId = db_query('SELECT MAX(REGION_ID) FROM REGION')
+                    newId = max(newId)[0] + 1
+                    db_query('INSERT INTO REGION (REGION_ID, REGION_NAME, DELETED) VALUES(%s, %s, %s)', [newId, region, 0])
+                else:
+                    db_query('UPDATE REGION SET DELETED = %s WHERE REGION_NAME = %s COLLATE NOCASE', [0, region])
                 return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'update' in response.POST:
             form = EditRegionForm(response.POST)
@@ -133,15 +163,22 @@ def manageRegion(response):
                 return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'delete' in response.POST:
             delete_key = response.POST.get('delete')
-            db_query('DELETE FROM REGION WHERE REGION_ID = %s', [delete_key])
+            db_query('UPDATE REGION SET DELETED = %s WHERE REGION_ID = %s', [1, delete_key])
             return HttpResponseRedirect(response.path_info)
-        regions = db_query('SELECT * FROM REGION')
+        if response.method == "GET" and 'filterTextBox' in response.GET:
+            fReg = response.GET['fRegion']
+            fReg = "%" + fReg + "%"
+            regions = db_query('SELECT * FROM REGION WHERE REGION_NAME LIKE %s AND DELETED = 0 COLLATE NOCASE', [fReg])
+        else:
+            regions = db_query('SELECT * FROM REGION WHERE DELETED = 0')
         form = AddRegionForm()
         form2 = EditRegionForm()
+        filterRegion = FilterRegionForm()
         context = {
             'regions': regions,
             'form': form,
-            'form2': form2
+            'form2': form2,
+            'filterRegion': filterRegion
         }
         return render(response, './manage/manageregions.html', context)
     return redirect('/login')
@@ -151,14 +188,19 @@ def manageGroups(response):
         if response.method == "POST" and 'Create' in response.POST:
             form = AddGroupForm(response.POST)
             if form.is_valid():
-                newId = db_query("SELECT MAX(GROUP_ID) FROM SPECIES_GROUP")
-                newId = max(newId)[0] + 1
                 group = form.cleaned_data.get('group')
-                db_query('INSERT INTO SPECIES_GROUP (GROUP_ID, GROUP_NAME) VALUES(%s, %s)', [newId, group])
+                existingGroup = db_query('SELECT GROUP_NAME FROM SPECIES_GROUP WHERE GROUP_NAME = %s COLLATE NOCASE', [group])
+                if existingGroup == []:
+                    print('here')
+                    newId = db_query("SELECT MAX(GROUP_ID) FROM SPECIES_GROUP")
+                    newId = max(newId)[0] + 1
+                    db_query('INSERT INTO SPECIES_GROUP (GROUP_ID, GROUP_NAME, DELETED) VALUES(%s, %s, %s)', [newId, group, 0])
+                else:
+                    db_query('UPDATE SPECIES_GROUP SET DELETED = %s WHERE GROUP_NAME = %s COLLATE NOCASE', [0, group])
                 return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'delete' in response.POST:
             delete_key = response.POST.get('delete')
-            db_query('DELETE FROM SPECIES_GROUP WHERE GROUP_ID = %s', [delete_key])
+            db_query('UPDATE SPECIES_GROUP SET DELETED = %s WHERE GROUP_ID = %s', [1, delete_key])
             return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'update' in response.POST:
             form = EditGroupForm(response.POST)
@@ -167,13 +209,20 @@ def manageGroups(response):
                 groupId = response.POST.get('update')
                 db_query('UPDATE SPECIES_GROUP SET GROUP_NAME = %s WHERE GROUP_ID = %s', [groupName, groupId])
                 return HttpResponseRedirect(response.path_info)
-        groups = db_query('SELECT * FROM SPECIES_GROUP')
+        if response.method == "GET" and 'filterTextBox' in response.GET:
+            fGrp = response.GET['fGroup']
+            fGrp = "%" + fGrp + "%"
+            groups = db_query('SELECT * FROM SPECIES_GROUP WHERE GROUP_NAME LIKE %s AND DELETED = 0', [fGrp])
+        else:
+            groups = db_query('SELECT * FROM SPECIES_GROUP WHERE DELETED = 0')
         form = AddGroupForm()
         form2 = EditGroupForm()
+        filterGroup = FilterGroupForm()
         context = {
             'groups': groups,
             'form': form,
-            'form2': form2
+            'form2': form2,
+            'filterGroup': filterGroup
         }
         return render(response, './manage/managegroups.html', context)
     return redirect('/login')
@@ -183,14 +232,18 @@ def manageStatuses(response):
         if response.method == "POST" and 'Create' in response.POST:
             form = AddCStatusForm(response.POST)
             if form.is_valid():
-                newId = db_query('SELECT MAX(STATUS_ID) FROM STATUS')
-                newId = max(newId)[0] + 1
                 status = form.cleaned_data.get('status')
-                db_query('INSERT INTO STATUS (STATUS_ID, STATUS_NAME) VALUES(%s, %s)', [newId, status])
+                existingStatus = db_query('SELECT STATUS_NAME FROM STATUS WHERE STATUS_NAME = lower(%s) COLLATE NOCASE', [status])
+                if existingStatus == []:
+                    newId = db_query('SELECT MAX(STATUS_ID) FROM STATUS')
+                    newId = max(newId)[0] + 1
+                    db_query('INSERT INTO STATUS (STATUS_ID, STATUS_NAME, DELETED) VALUES(%s, %s, %s)', [newId, status, 0])
+                else:
+                    db_query('UPDATE STATUS SET DELETED = %s WHERE STATUS_NAME = %s COLLATE NOCASE', [0, status])
                 return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'delete' in response.POST:
             delete_key = response.POST.get('delete')
-            db_query('DELETE FROM STATUS WHERE STATUS_ID = %s', [delete_key])
+            db_query('UPDATE STATUS SET DELETED = %s WHERE STATUS_ID = %s', [1, delete_key])
             return HttpResponseRedirect(response.path_info)
         if response.method == "POST" and 'update' in response.POST:
             print("here")
@@ -200,13 +253,20 @@ def manageStatuses(response):
                 statusId = response.POST.get('update')
                 db_query('UPDATE STATUS SET STATUS_NAME = %s WHERE STATUS_ID = %s', [statusName, statusId])
                 return HttpResponseRedirect(response.path_info)
-        status = db_query('SELECT * FROM STATUS')
+        if response.method == "GET" and 'filterTextBox' in response.GET:
+            fStat = response.GET['fStatus']
+            fStat = "%" + fStat + "%"
+            status = db_query('SELECT * FROM STATUS WHERE STATUS_NAME LIKE %s AND DELETED = 0', [fStat])
+        else:
+            status = db_query('SELECT * FROM STATUS WHERE DELETED = 0')
         form = AddCStatusForm()
         form2 = EditCStatusForm()
+        filterStatus = FilterStatusForm()
         context = {
             'status': status,
             'form': form,
-            'form2': form2
+            'form2': form2,
+            'filterStatus': filterStatus
         }
         return render(response, './manage/managestatuses.html', context)
     return redirect('/login')

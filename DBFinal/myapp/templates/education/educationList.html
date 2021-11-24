@@ -1,3 +1,4 @@
+{% load crispy_forms_tags%}
 {% block content %}
 {% load static %}
 <!DOCTYPE >
@@ -16,13 +17,27 @@
             <a href = "../">Landing Page</a>
         </div>
         <div id = container>
+            <div id = filter>
+                <div id = filterTitle>
+                    <p> Filter Options </p>
+                </div>
+                <form action="" method="GET" id = "filterOptions" class = "form-group">
+                    <div id = filterFields>
+                        {% csrf_token %}
+                        {{ filterListForm|crispy }}
+                    </div>
+                    <div id= filterButton>
+                        <input submit-button id = "addButton" type = "submit" name = "filterTextBox" value = 'Filter' />
+                    </div>
+                </form>
+            </div>
             <table id = speciesTable>
                 <th id = sHead>Common Name</th>
                 <th id = sHead>Scientific Name</th>
                 <th id = sHead>Region</th>
                 <th id = sHead>Conservation Status</th>
                 <th id = sHead>Group</th>
-                {% for r in mammals %}
+                {% for r in educatePaginate %}
                 <tr>
                     <td id = rowData>{{r.1}}</td>
                     <td id = rowData>{{r.2}}</td>
@@ -32,6 +47,23 @@
                 </tr>
                 {% endfor %}
             </table>
+            <div>
+                <span class="paginate-container">
+                {% if educatePaginate.has_previous %}
+                    <a class="paginate" href="?page=1">&laquo; first</a>
+                    <a class="paginate" href="?page={{ educatePaginate.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span>
+                    Page {{ educatePaginate.number }} of {{ educatePaginate.paginator.num_pages }} 
+                </span>
+        
+                {% if educatePaginate.has_next %}
+                    <a class="paginate" href="?page={{ educatePaginate.next_page_number }}">next</a>
+                    <a class="paginate" href="?page={{ educatePaginate.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+                </span>
+            </div>
         </div>
         <div id = footer>
             <table>

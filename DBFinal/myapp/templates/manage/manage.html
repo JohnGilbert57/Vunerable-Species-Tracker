@@ -48,7 +48,7 @@
                         {{ form3|crispy }}
                     </div>
                     <div id= filterButton>
-                        <input submit-button id = "addButton" type = "submit" name = "Create" value = 'Filter' />
+                        <input submit-button id = "addButton" type = "submit" name = "filterTextBox" value = 'Filter' />
                     </div>
                 </form>
             </div>
@@ -92,23 +92,23 @@
                     {% endfor %}
                 </table>
             </div>
-	<div>
-	    <span class="paginate-container">
-		{% if speciesPaginate.has_previous %}
-		    <a class="paginate" href="?page=1">&laquo; first</a>
-		    <a class="paginate" href="?page={{ speciesPaginate.previous_page_number }}">previous</a>
-		{% endif %}
+            <div>
+                <span class="paginate-container">
+                {% if speciesPaginate.has_previous %}
+                    <a class="paginate" href="?page=1">&laquo; first</a>
+                    <a class="paginate" href="?page={{ speciesPaginate.previous_page_number }}">previous</a>
+                {% endif %}
 
-		<span>
-		    Page {{ speciesPaginate.number }} of {{ speciesPaginate.paginator.num_pages }} 
-		</span>
+                <span>
+                    Page {{ speciesPaginate.number }} of {{ speciesPaginate.paginator.num_pages }} 
+                </span>
 
-		{% if speciesPaginate.has_next %}
-		    <a class="paginate" href="?page={{ speciesPaginate.next_page_number }}">next</a>
-		    <a class="paginate" href="?page={{ speciesPaginate.paginator.num_pages }}">last &raquo;</a>
-		{% endif %}
-	    </span>
-	</div>
+                {% if speciesPaginate.has_next %}
+                    <a class="paginate" href="?page={{ speciesPaginate.next_page_number }}">next</a>
+                    <a class="paginate" href="?page={{ speciesPaginate.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+                </span>
+            </div>
         </div>
         <div class = "modal" id = modal2>
             <div class = modalHeader2>

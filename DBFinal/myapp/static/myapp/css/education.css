@@ -92,7 +92,7 @@ a:hover {
 #container{
     min-height:80%;
     /*adjust this style accordingly when implementing filters since it will skew this initial padding*/
-    padding-top: 225px
+    padding-top: 100px;
 }
 #sHead{
     color: white;
@@ -115,4 +115,78 @@ a:hover {
     padding-bottom: 1%;
     text-align: center;
 }
+#filter{
+    background-color: #024230;
+}
 
+#filterFields{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5%;
+    margin-bottom: 0.5%;
+    color: rgb(255, 255, 255);
+    cursor:pointer;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    border: none;
+}
+
+#filterTitle{
+    text-align: center;
+    font-size: 120%;
+    font-weight: bold;
+    margin-top: 5%;
+    padding-top: 0.005%;
+    color: white;
+}
+
+#filterButton{
+    display: flex;
+    margin-top: 0.05%;
+    margin-bottom: 3%;
+    background-color: #ffffff;
+}
+
+#div_id_fCommonName{
+    display: flex;
+}
+
+#div_id_fScientificName{
+    display: flex;
+}
+
+#div_id_fRegion{
+    display: flex;
+}
+
+#div_id_fConservationStatus{
+    display: flex;
+}
+#addButton{
+    margin: 0 auto;
+    width: 20%;
+    height: 35px;
+    background-color: #024230;
+    margin-top: 2%;
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+label{
+    cursor: pointer;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: right;
+    width: 45%;
+    vertical-align: top;
+}
+.paginate{
+    color: black !important;
+}
+.paginate:hover{
+    color: blue !important;
+}
+.paginate-container{
+    margin-left: 18%;
+}

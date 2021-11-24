@@ -12,9 +12,9 @@ from myapp.database import *
 class AddSpeciesForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
-        REGION = to_tuples(db_query('select region_id,region_name from region'))
-        STATUS = to_tuples(db_query('select status_id,status_name from status'))
-        GROUP = to_tuples(db_query('select group_id,group_name from species_group'))
+        REGION = to_tuples(db_query('select region_id,region_name from region where deleted = 0 order by region_name'))
+        STATUS = to_tuples(db_query('select status_id,status_name from status where deleted = 0 order by status_name'))
+        GROUP = to_tuples(db_query('select group_id,group_name from species_group where deleted = 0 order by group_name'))
         self.fields['region'].choices = REGION
         self.fields['conservationStatus'].choices = STATUS
         self.fields['group'].choices = GROUP
@@ -27,17 +27,17 @@ class AddSpeciesForm(forms.Form):
 class EditSpeciesForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
-        REGION = to_tuples(db_query('select region_id,region_name from region'))
-        STATUS = to_tuples(db_query('select status_id,status_name from status'))
-        GROUP = to_tuples(db_query('select group_id,group_name from species_group'))
+        REGION = to_tuples(db_query('select region_id,region_name from region where deleted = 0 order by region_name'))
+        STATUS = to_tuples(db_query('select status_id,status_name from status where deleted = 0 order by status_name'))
+        GROUP = to_tuples(db_query('select group_id,group_name from species_group where deleted = 0 order by group_name'))
         self.fields['reg'].choices = REGION
         self.fields['cStatus'].choices = STATUS
         self.fields['grp'].choices = GROUP
-    cName = forms.CharField(label='Common Name', max_length=100)
-    sName = forms.CharField(label='Scientific Name', max_length=100)
-    reg = forms.ChoiceField(label='Region')
-    cStatus = forms.ChoiceField(label='Conservation Status')
-    grp = forms.ChoiceField(label='Group')
+    cName = forms.CharField(label='Common Name: ', max_length=100)
+    sName = forms.CharField(label='Scientific Name: ', max_length=100)
+    reg = forms.ChoiceField(label='Region: ')
+    cStatus = forms.ChoiceField(label='Conservation Status: ')
+    grp = forms.ChoiceField(label='Group: ')
 
 class AddRegionForm(forms.Form):
     region = forms.CharField(label='Region: ', max_length=100)
@@ -60,14 +60,35 @@ class EditGroupForm(forms.Form):
 class FilterSpeciesForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
-        REGION = to_tuples(db_query('select 0, "---" UNION select region_id, region_name from region order by region_name'))
-        STATUS = to_tuples(db_query('select 0, "---" UNION select status_id, status_name from status order by status_name'))
-        GROUP = to_tuples(db_query('select 0, "---" UNION select group_id, group_name from species_group order by group_name'))
+        REGION = to_tuples(db_query('select 0, "---" UNION select region_id, region_name from region where deleted = 0 order by region_name'))
+        STATUS = to_tuples(db_query('select 0, "---" UNION select status_id, status_name from status where deleted = 0 order by status_name '))
+        GROUP = to_tuples(db_query('select 0, "---" UNION select group_id, group_name from species_group  where deleted = 0 order by group_name'))
         self.fields['fReg'].choices = REGION
         self.fields['fCStatus'].choices = STATUS
         self.fields['fGrp'].choices = GROUP
-    fCName = forms.CharField(label='Common Name',required=False, max_length=100)
-    fSName = forms.CharField(label='Scientific Name',required=False, max_length=100)
-    fReg = forms.ChoiceField(label='Region')
-    fCStatus = forms.ChoiceField(label='Conservation Status')
-    fGrp = forms.ChoiceField(label='Group')
+    fCName = forms.CharField(label='Common Name: ',required=False, max_length=100)
+    fSName = forms.CharField(label='Scientific Name: ',required=False, max_length=100)
+    fReg = forms.ChoiceField(label='Region: ', required = False)
+    fCStatus = forms.ChoiceField(label='Conservation Status: ', required = False)
+    fGrp = forms.ChoiceField(label='Group: ', required = False)
+
+class FilterRegionForm(forms.Form):
+    fRegion = forms.CharField(label = 'Region: ', required = False, max_length = 100)
+
+class FilterStatusForm(forms.Form):
+    fStatus = forms.CharField(label = 'Conservation Status: ', required = False, max_length = 100)
+
+class FilterGroupForm(forms.Form):
+    fGroup = forms.CharField(label = 'Group: ', required = False, max_length = 100)
+
+class FilterEducationListForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
+        REGION = to_tuples(db_query('select 0, "---" UNION select region_id, region_name from region where deleted = 0 order by region_name'))
+        STATUS = to_tuples(db_query('select 0, "---" UNION select status_id, status_name from status where deleted = 0 order by status_name '))
+        self.fields['fRegion'].choices = REGION
+        self.fields['fConservationStatus'].choices = STATUS
+    fCommonName = forms.CharField(label = 'Common Name: ', required = False, max_length = 100)
+    fScientificName = forms.CharField(label = "Scientific Name: ", required = False, max_length = 100)
+    fRegion = forms.ChoiceField(label = "Region: ", required = False)
+    fConservationStatus = forms.ChoiceField(label = "Conservation Status: ", required = False)
