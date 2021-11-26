@@ -1,6 +1,8 @@
 {% load crispy_forms_tags%}
 {% block content %}
 {% load static %}
+{% load url_replace %}
+{% load sort_toggle %}
 <!DOCTYPE >
 <html>
     <head>
@@ -54,11 +56,11 @@
             </div>
             <div id = tableContainer>
                 <table id = speciesTable>
-                    <th id = sHead>Common Name</th>
-                    <th id = sHead>Scientific Name</th>
-                    <th id = sHead>Region</th>
-                    <th id = sHead>Conservation Status</th>
-                    <th id = sHead>Group</th>
+                    <th id = sHead><a href="?{% sort_toggle request 'common_sort' %}">Common Name</a></th>
+                    <th id = sHead><a href="?{% sort_toggle request 'scientific_sort' %}">Scientific Name</a></th>
+                    <th id = sHead><a href="?{% sort_toggle request 'region_sort' %}">Region</a></th>
+                    <th id = sHead><a href="?{% sort_toggle request 'status_sort' %}">Conservation Status</a></th>
+                    <th id = sHead><a href="?{% sort_toggle request 'group_sort' %}">Group</a></th>
                     <th id = sHead>Edit/Delete</th>
                     {% for r in speciesPaginate %}
                     <tr>
@@ -95,8 +97,8 @@
             <div>
                 <span class="paginate-container">
                 {% if speciesPaginate.has_previous %}
-                    <a class="paginate" href="?page=1">&laquo; first</a>
-                    <a class="paginate" href="?page={{ speciesPaginate.previous_page_number }}">previous</a>
+                    <a class="paginate" href="?{% url_replace request 'page' 1 %}">&laquo; first</a>
+                    <a class="paginate" href="?{% url_replace request 'page' speciesPaginate.previous_page_number %}">previous</a>
                 {% endif %}
 
                 <span>
@@ -104,8 +106,8 @@
                 </span>
 
                 {% if speciesPaginate.has_next %}
-                    <a class="paginate" href="?page={{ speciesPaginate.next_page_number }}">next</a>
-                    <a class="paginate" href="?page={{ speciesPaginate.paginator.num_pages }}">last &raquo;</a>
+                    <a class="paginate" href="?{% url_replace request 'page' speciesPaginate.next_page_number %}">next</a>
+                    <a class="paginate" href="?{% url_replace request 'page' speciesPaginate.paginator.num_pages %}">last &raquo;</a>
                 {% endif %}
                 </span>
             </div>

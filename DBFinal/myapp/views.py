@@ -12,7 +12,6 @@ from .forms import *
 from django.http import HttpResponseRedirect
 from django.core.paginator import *
 
-
 """Landing page Response Return"""
 def landingpage(response):
     if response.user.is_authenticated:
