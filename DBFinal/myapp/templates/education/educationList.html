@@ -1,6 +1,8 @@
 {% load crispy_forms_tags%}
 {% block content %}
 {% load static %}
+{% load url_replace %}
+{% load sort_toggle %}
 <!DOCTYPE >
 <html>
     <head>
@@ -32,12 +34,12 @@
                 </form>
             </div>
             <table id = speciesTable>
-                <th id = sHead>Common Name</th>
-                <th id = sHead>Scientific Name</th>
-                <th id = sHead>Region</th>
-                <th id = sHead>Conservation Status</th>
-                <th id = sHead>Group</th>
-                {% for r in educatePaginate %}
+                <th id = sHead><a href="?{% sort_toggle request 'common_sort' %}">Common Name</a></th>
+                <th id = sHead><a href="?{% sort_toggle request 'scientific_sort' %}">Scientific Name</a></th>
+                <th id = sHead><a href="?{% sort_toggle request 'region_sort' %}">Region</a></th>
+                <th id = sHead><a href="?{% sort_toggle request 'status_sort' %}">Conservation Status</a></th>
+                <th id = sHead><a href="?{% sort_toggle request 'group_sort' %}">Group</a></th>
+                {% for r in mammals %}
                 <tr>
                     <td id = rowData>{{r.1}}</td>
                     <td id = rowData>{{r.2}}</td>
@@ -47,7 +49,7 @@
                 </tr>
                 {% endfor %}
             </table>
-            <div>
+           <!-- <div>
                 <span class="paginate-container">
                 {% if educatePaginate.has_previous %}
                     <a class="paginate" href="?page=1">&laquo; first</a>
@@ -63,8 +65,9 @@
                     <a class="paginate" href="?page={{ educatePaginate.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
                 </span>
-            </div>
+            </div> 
         </div>
+        -->
         <div id = footer>
             <table>
                 <tr>

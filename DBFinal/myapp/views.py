@@ -1,5 +1,5 @@
 """Renders our page forms and views"""
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
 from django.http import HttpResponse
 from django.views import generic
 from django.views.generic import TemplateView
@@ -22,6 +22,39 @@ def landingpage(response):
 def baseUrl(response):
     return redirect('/login')
 
+"""gathers the information for how the columns will have the animals ordered, based upon the
+   order that the user selects the columns to be ordered by"""
+def getOrderBy(queryParameters, orderByInfo):
+    if len(queryParameters) != 0:
+        for key, value in queryParameters.items():
+            if key == 'common_sort':
+                if value == 'asc':
+                    orderByInfo += " COMMON_NAME COLLATE NOCASE ASC,"
+                if value == 'desc':
+                    orderByInfo += " COMMON_NAME COLLATE NOCASE DESC,"
+            if key == 'scientific_sort':
+                if value == 'asc':
+                    orderByInfo += " SCIENTIFIC_NAME COLLATE NOCASE ASC,"
+                if value == 'desc':
+                    orderByInfo += " SCIENTIFIC_NAME COLLATE NOCASE DESC,"
+            if key == 'region_sort':
+                if value == 'asc':
+                    orderByInfo += " REGION_NAME COLLATE NOCASE ASC,"
+                if value == 'desc':
+                    orderByInfo += " REGION_NAME COLLATE NOCASE DESC,"
+            if key == 'status_sort':
+                if value == 'asc':
+                    orderByInfo += " STATUS_NAME COLLATE NOCASE ASC,"
+                if value == 'desc':
+                    orderByInfo += " STATUS_NAME COLLATE NOCASE DESC,"
+            if key == 'group_sort':
+                if value == 'asc':
+                    orderByInfo += " GROUP_NAME COLLATE NOCASE ASC,"
+                if value == 'desc':
+                    orderByInfo += " GROUP_NAME COLLATE NOCASE DESC,"
+    return orderByInfo
+
+"""Updating the overall database for the page"""
 def managePage(response):
     if response.user.is_authenticated:
         if response.method == "POST" and 'Create' in response.POST:
@@ -85,16 +118,35 @@ def managePage(response):
                 species += " and s.group_id = %s"
                 speciesParam.append(int(filterGrp))
             
+        # Update this for OrderBy statement to allow ordering based on the URL
+        # and if it is in asc or desc order
+        orderByInfo = " ORDER BY"
+        # Call the function to get the orderBY information
+        orderByInfo = getOrderBy(response.GET.copy(), orderByInfo)
+
+        # The length before the GROUP BY is 9, so if you have something that is being grouped for 
+        # asc or desc order
+        if len(orderByInfo) > 9:
+            # Cut off the last comma
+            orderByInfo = orderByInfo[0: len(orderByInfo) - 1]
+            # Append the orderBy info to the species
+            species = species + orderByInfo
+
         # The forms with the functions are below
         form = AddSpeciesForm()
         form2 = EditSpeciesForm()
         form3 = FilterSpeciesForm()
+
+        # The query that may have been updated previously in the function
         speciesData = db_query(species, speciesParam)
+
+        # Info for a paginator with the data of the species with pages included
         p = Paginator(speciesData,50)
         page_number = 1
         if "page" in response.GET:
             page_number = response.GET['page']
         speciesPaginate = p.get_page(page_number)
+
         context = {
             'speciesPaginate': speciesPaginate,
             'form': form,
@@ -104,6 +156,7 @@ def managePage(response):
         return render(response,'./manage/manage.html',context)
     return redirect('/login')
 
+"""For the education page, contains the list of species"""
 def educationList(response):
     if response.user.is_authenticated:
         mammalsQuery = "select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id and sg.group_name = 'Mammals'"
@@ -113,10 +166,12 @@ def educationList(response):
             fCName = "%" + fCName + "%"
             mammalsQuery += "and common_name like %s"
             mammalsParams.append(fCName)
+
             fSName = response.GET['fScientificName']
             fSName = "%" + fSName + "%"
             mammalsQuery += "and scientific_name like %s"
             mammalsParams.append(fSName)
+
             if "fRegion" in response.GET and response.GET['fRegion'] != '0':
                 fReg = response.GET['fRegion']
                 mammalsQuery += 'and s.region_id = %s'
@@ -125,20 +180,38 @@ def educationList(response):
                 fCStatus = response.GET['fConservationStatus']
                 mammalsQuery += 'and s.status_id = %s'
                 mammalsParams.append(int(fCStatus))
-        mammals = db_query(mammalsQuery, mammalsParams)
+        
+        # Update this for OrderBy statement to allow ordering based on the URL
+        # and if it is in asc or desc order
+        orderByInfo = " ORDER BY"
+        # Call the function to get the orderBY information
+        orderByInfo = getOrderBy(response.GET.copy(), orderByInfo)
+
         filterListForm = FilterEducationListForm()
-        p = Paginator(mammals,50)
-        page_number = 1
-        if "page" in response.GET:
-            page_number = response.GET['page']
-        educatePaginate = p.get_page(page_number)
+
+        # The length before the GROUP BY is 9, so if you have something that is being grouped for 
+        # asc or desc order
+        if len(orderByInfo) > 9:
+            # Cut off the last comma
+            orderByInfo = orderByInfo[0: len(orderByInfo) - 1]
+            # Append the orderBy info to the species
+            mammalsQuery += orderByInfo
+
+        mammalsData = db_query(mammalsQuery, mammalsParams)
+        #p = Paginator(mammals,50)
+        #page_number = 1
+        #if "page" in response.GET:
+        #   page_number = response.GET['page']
+        #educatePaginate = p.get_page(page_number)
         context = {
-            'educatePaginate': educatePaginate,
-            'filterListForm': filterListForm
+        #   'educatePaginate': educatePaginate,
+            'filterListForm': filterListForm,
+            'mammals': mammalsData
         }
         return render(response, './education/educationList.html', context)
     return redirect('/login')
 
+"""Information to update/change the region page"""
 def manageRegion(response):
     if response.user.is_authenticated:
         if response.method == "POST" and 'Create' in response.POST:
@@ -164,15 +237,34 @@ def manageRegion(response):
             delete_key = response.POST.get('delete')
             db_query('UPDATE REGION SET DELETED = %s WHERE REGION_ID = %s', [1, delete_key])
             return HttpResponseRedirect(response.path_info)
+
+        regions = 'SELECT * FROM REGION WHERE DELETED = 0'
+        regionParam = []
+
         if response.method == "GET" and 'filterTextBox' in response.GET:
             fReg = response.GET['fRegion']
             fReg = "%" + fReg + "%"
-            regions = db_query('SELECT * FROM REGION WHERE REGION_NAME LIKE %s AND DELETED = 0 COLLATE NOCASE', [fReg])
-        else:
-            regions = db_query('SELECT * FROM REGION WHERE DELETED = 0')
+            regions += " AND REGION_NAME LIKE %s"
+            regionParam.append(fReg)
+
+        # Update this for OrderBy statement to allow ordering based on the URL
+        # and if it is in asc or desc order
+        orderByInfo = " ORDER BY"
+        # Call the function to get the orderBY information
+        orderByInfo = getOrderBy(response.GET.copy(), orderByInfo)
+
+        if len(orderByInfo) > 9:
+            # Cut off the last comma
+            orderByInfo = orderByInfo[0: len(orderByInfo) - 1]
+            # Append the orderBy info to the species
+            regions += orderByInfo   
+
+        regions = db_query(regions, regionParam)
+
         form = AddRegionForm()
         form2 = EditRegionForm()
         filterRegion = FilterRegionForm()
+
         context = {
             'regions': regions,
             'form': form,
@@ -182,6 +274,7 @@ def manageRegion(response):
         return render(response, './manage/manageregions.html', context)
     return redirect('/login')
 
+"""Information to update/change the group page"""
 def manageGroups(response):
     if response.user.is_authenticated:
         if response.method == "POST" and 'Create' in response.POST:
@@ -208,15 +301,34 @@ def manageGroups(response):
                 groupId = response.POST.get('update')
                 db_query('UPDATE SPECIES_GROUP SET GROUP_NAME = %s WHERE GROUP_ID = %s', [groupName, groupId])
                 return HttpResponseRedirect(response.path_info)
+        
+        groups = 'SELECT * FROM SPECIES_GROUP WHERE DELETED = 0'
+        groupParam = []
+
         if response.method == "GET" and 'filterTextBox' in response.GET:
             fGrp = response.GET['fGroup']
             fGrp = "%" + fGrp + "%"
-            groups = db_query('SELECT * FROM SPECIES_GROUP WHERE GROUP_NAME LIKE %s AND DELETED = 0', [fGrp])
-        else:
-            groups = db_query('SELECT * FROM SPECIES_GROUP WHERE DELETED = 0')
+            groups += ' AND GROUP_NAME LIKE %s'
+            groupParam.append(fGrp)
+
+        # Update this for OrderBy statement to allow ordering based on the URL
+        # and if it is in asc or desc order
+        orderByInfo = " ORDER BY"
+        # Call the function to get the orderBY information
+        orderByInfo = getOrderBy(response.GET.copy(), orderByInfo)
+
+        if len(orderByInfo) > 9:
+            # Cut off the last comma
+            orderByInfo = orderByInfo[0: len(orderByInfo) - 1]
+            # Append the orderBy info to the species
+            groups += orderByInfo   
+             
+        groups = db_query(groups, groupParam)
+
         form = AddGroupForm()
         form2 = EditGroupForm()
         filterGroup = FilterGroupForm()
+
         context = {
             'groups': groups,
             'form': form,
@@ -226,6 +338,7 @@ def manageGroups(response):
         return render(response, './manage/managegroups.html', context)
     return redirect('/login')
 
+"""Information to update/change the status page"""
 def manageStatuses(response):
     if response.user.is_authenticated:
         if response.method == "POST" and 'Create' in response.POST:
@@ -244,6 +357,7 @@ def manageStatuses(response):
             delete_key = response.POST.get('delete')
             db_query('UPDATE STATUS SET DELETED = %s WHERE STATUS_ID = %s', [1, delete_key])
             return HttpResponseRedirect(response.path_info)
+
         if response.method == "POST" and 'update' in response.POST:
             print("here")
             form = EditCStatusForm(response.POST)
@@ -252,15 +366,34 @@ def manageStatuses(response):
                 statusId = response.POST.get('update')
                 db_query('UPDATE STATUS SET STATUS_NAME = %s WHERE STATUS_ID = %s', [statusName, statusId])
                 return HttpResponseRedirect(response.path_info)
+
+        status = 'SELECT * FROM STATUS WHERE DELETED = 0'
+        statusParam = []
+
         if response.method == "GET" and 'filterTextBox' in response.GET:
             fStat = response.GET['fStatus']
             fStat = "%" + fStat + "%"
-            status = db_query('SELECT * FROM STATUS WHERE STATUS_NAME LIKE %s AND DELETED = 0', [fStat])
-        else:
-            status = db_query('SELECT * FROM STATUS WHERE DELETED = 0')
+            status += ' AND STATUS_NAME LIKE %s'
+            statusParam.append(fStat)
+    
+        # Update this for OrderBy statement to allow ordering based on the URL
+        # and if it is in asc or desc order
+        orderByInfo = " ORDER BY"
+        # Call the function to get the orderBY information
+        orderByInfo = getOrderBy(response.GET.copy(), orderByInfo)
+
+        if len(orderByInfo) > 9:
+            # Cut off the last comma
+            orderByInfo = orderByInfo[0: len(orderByInfo) - 1]
+            # Append the orderBy info to the species
+            status += orderByInfo   
+             
+        status = db_query(status, statusParam)
+
         form = AddCStatusForm()
         form2 = EditCStatusForm()
         filterStatus = FilterStatusForm()
+
         context = {
             'status': status,
             'form': form,

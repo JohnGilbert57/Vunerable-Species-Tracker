@@ -1,6 +1,8 @@
 {% load crispy_forms_tags%}
 {% block content %}
 {% load static %}
+{% load url_replace %}
+{% load sort_toggle %}
 <!DOCTYPE >
 <html>
     <head>
@@ -35,7 +37,7 @@
             </div>
             <div id = tableContainer>
                 <table id = statusTable>
-                    <th id = status>Conservation Status</th>
+                    <th id = status><a href="?{% sort_toggle request 'status_sort' %}">Conversation Status</a></th>
                     <th id = editordelete>Edit/Delete</th>
                     {% for r in status %}
                     <tr>

@@ -1,6 +1,8 @@
 {% load crispy_forms_tags%}
 {% block content %}
 {% load static %}
+{% load url_replace %}
+{% load sort_toggle %}
 <!DOCTYPE >
 <html>
     <head>
@@ -35,7 +37,7 @@
             </div>
             <div id = tableContainer>
                 <table id = groupTable>
-                    <th id = group>Animal Species Group</th>
+                    <th id = group><a href="?{% sort_toggle request 'group_sort' %}">Group</a></th>
                     <th id = editordelete>Edit/Delete</th>
                     {% for r in groups %}
                     <tr>
