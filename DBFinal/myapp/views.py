@@ -409,16 +409,15 @@ def mammalPage(response):
         mammalId = response.GET.copy()['id']
         status = db_query('SELECT STATUS_ID FROM SPECIES WHERE SPECIES_ID = %s', [mammalId])
         status = max(status[0])
-        #image = db_query('SELECT IMAGE FROM EDUCATION_IMAGE WHERE SPECIES_ID = %s', [mammalId])
-        #empPhoto = convertToBinaryData(image)
-        #print(empPhoto)
-        mammal = db_query('SELECT COMMON_NAME, SCIENTIFIC_NAME, STATUS_NAME, IMAGE, URL FROM EDUCATION_URL AS U, SPECIES AS S, STATUS AS SG, EDUCATION_IMAGE AS EI WHERE U.SPECIES_ID = %s AND S.SPECIES_ID = %s AND SG.STATUS_ID = %s AND EI.SPECIES_ID = %s', [mammalId, mammalId, status, mammalId])
+        mammal = db_query('SELECT COMMON_NAME, SCIENTIFIC_NAME, STATUS_NAME, IMAGE FROM SPECIES AS S, STATUS AS SG, EDUCATION_IMAGE AS EI WHERE S.SPECIES_ID = %s AND SG.STATUS_ID = %s AND EI.SPECIES_ID = %s', [mammalId, status, mammalId])
+        video = db_query('SELECT URL FROM EDUCATION_URL WHERE SPECIES_ID = %s', [mammalId])
         image = None
         if mammal:
             image = b64encode(mammal[0][3]).decode("utf-8")
         context = {
             'mammal': mammal,
-            'image' : image
+            'image' : image,
+            'video' : video
         }
         return render(response, './education/mammals.html', context)
     return redirect('/login')

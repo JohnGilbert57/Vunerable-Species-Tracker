@@ -11,7 +11,7 @@
 
     <body>
         <div id = header>
-            <p>DBFinal</p>  
+            <p>U.S. Animal Tracker</p>  
         </div>
         <div id = credentials>
             <p id = userName>{{user.username}}</p>
@@ -20,11 +20,19 @@
             <a href = "../education">Mammals List</a>
         </div>
         <div id = container>
-            <h1 id = commonName>{{mammal.0.0}}</h1>
-            <h3 id = scientificName>{{mammal.0.1}}</h3>
-            <h3 id = status>{{mammal.0.2}}</h3>
-            <img src="data:;base64,{{ image }}"/>
-            <p id = video><iframe width="560" height="315" src="{{mammal.0.4}}"></iframe></p>
+            {% if mammal %}
+                <h1 id = commonName>{{mammal.0.0}}</h1>
+                <h3 id = scientificName>{{mammal.0.1}}</h3>
+                <h3 id = status>{{mammal.0.2}}</h3>
+                <p id = image><img src="data:;base64,{{ image }}"/></p>
+                {% if video %}
+                    <p id = video><iframe width="560" height="315" src="{{video.0.0}}"></iframe></p>
+                {% else %}
+                    <h3 id = video>No Video Available</h3>
+                {% endif %}
+            {% else %}
+                <h1 id = noData>No data available. We will add this mammal soon.</h1>
+            {% endif %}
         </div>
         <div id = footer>
             <table>

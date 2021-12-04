@@ -118,3 +118,10 @@ th{
 #video{
     text-align: center;
 }
+#image {
+    text-align: center;
+}
+#noData {
+    text-align: center;
+    margin-left: 7%;
+}
