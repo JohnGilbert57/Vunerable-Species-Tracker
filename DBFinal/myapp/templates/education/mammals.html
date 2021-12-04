@@ -8,6 +8,7 @@
     <head>
         <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/mammalPage.css' %}">
     </head>
+
     <body>
         <div id = header>
             <p>DBFinal</p>  
@@ -19,13 +20,11 @@
             <a href = "../education">Mammals List</a>
         </div>
         <div id = container>
-            {% for r in mammal %}
-            <h1 id = commonName>{{r.0}}</h1>
-            <h3 id = scientificName>{{r.1}}</h3>
-            <h3 id = status>{{r.2}}</h3>
-            <img src = {{r.3}} alt = "animal image">
-            <p id = video><iframe width="560" height="315" src="{{r.4}}"></iframe></p>
-            {% endfor %}
+            <h1 id = commonName>{{mammal.0.0}}</h1>
+            <h3 id = scientificName>{{mammal.0.1}}</h3>
+            <h3 id = status>{{mammal.0.2}}</h3>
+            <img src="data:;base64,{{ image }}"/>
+            <p id = video><iframe width="560" height="315" src="{{mammal.0.4}}"></iframe></p>
         </div>
         <div id = footer>
             <table>

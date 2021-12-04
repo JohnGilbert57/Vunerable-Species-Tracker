@@ -11,6 +11,7 @@ from myapp.database import *
 from .forms import *
 from django.http import HttpResponseRedirect
 from django.core.paginator import *
+from base64 import b64encode
 
 """Landing page Response Return"""
 def landingpage(response):
@@ -159,7 +160,7 @@ def managePage(response):
 """For the education page, contains the list of species"""
 def educationList(response):
     if response.user.is_authenticated:
-        mammalsQuery = "select species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id and sg.group_name = 'Mammals'"
+        mammalsQuery = "select s.species_id, common_name, scientific_name, region_name, status_name, group_name from species s,region r,species_group sg,status st, education_image ei where s.status_id=st.status_id and s.region_id=r.region_id and s.group_id=sg.group_id and sg.group_name = 'Mammals' and ei.species_id=s.species_id"
         mammalsParams = []
         if response.method == "GET" and 'filterTextBox' in response.GET:
             fCName = response.GET['fCommonName']
@@ -402,23 +403,22 @@ def manageStatuses(response):
         }
         return render(response, './manage/managestatuses.html', context)
     return redirect('/login')
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
 
 def mammalPage(response):
     if response.user.is_authenticated:
         mammalId = response.GET.copy()['id']
         status = db_query('SELECT STATUS_ID FROM SPECIES WHERE SPECIES_ID = %s', [mammalId])
         status = max(status[0])
-        image = db_query('SELECT IMAGE FROM EDUCATION_IMAGE WHERE SPECIES_ID = %s', [mammalId])
-        empPhoto = convertToBinaryData(image)
-        print(empPhoto)
+        #image = db_query('SELECT IMAGE FROM EDUCATION_IMAGE WHERE SPECIES_ID = %s', [mammalId])
+        #empPhoto = convertToBinaryData(image)
+        #print(empPhoto)
         mammal = db_query('SELECT COMMON_NAME, SCIENTIFIC_NAME, STATUS_NAME, IMAGE, URL FROM EDUCATION_URL AS U, SPECIES AS S, STATUS AS SG, EDUCATION_IMAGE AS EI WHERE U.SPECIES_ID = %s AND S.SPECIES_ID = %s AND SG.STATUS_ID = %s AND EI.SPECIES_ID = %s', [mammalId, mammalId, status, mammalId])
+        image = None
+        if mammal:
+            image = b64encode(mammal[0][3]).decode("utf-8")
         context = {
-            'mammal': mammal
+            'mammal': mammal,
+            'image' : image
         }
         return render(response, './education/mammals.html', context)
     return redirect('/login')
