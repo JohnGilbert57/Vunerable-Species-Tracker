@@ -1,0 +1,120 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Robobto";
+    /*KEEP THE TWO LINES BELOW! THE KEEP FOOTER NICE 
+    FOR EVERY BROWSER*/
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    /*overflow-y: hidden;*/
+}
+#credentials{
+    position: relative;
+    float: right;
+    top: -87px;
+    text-align: right;
+    padding-right: 10px;
+    margin: 0;
+    color: white;
+}
+#userName{
+    margin-top: 12%;
+    margin-bottom: 3%;
+}
+a:link, a:visited{
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    text-decoration: none;
+}
+/*used when hovering over hyperlink*/
+a:hover {
+    color: rgb(154, 206, 96);
+}
+
+/*style the header of the website*/
+#header{
+    margin-top: -2%;
+    width: 100%;
+    height: 120px;
+    float: right;
+    /*padding: 200%, 200%;*/
+    background-color:#024230;
+}
+
+/*style of the title of the page*/
+#header p{
+    text-align: center;
+    margin: auto;
+    margin-top: 1.75%;
+    padding-top: 2%;
+    font-size: 200%;
+    color: rgb(255, 255, 255);
+}
+/*styles the footer of the website*/
+#footer{
+    height: 130px; 
+    margin-top: 1.5%;
+    /*have the footer at the bottom and stretch across*/
+
+    /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
+    position: relative;
+    /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
+
+    /*DO NOT REMOVE THE LINE BELOW THIS; USED FOR FOOTER*/
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: #024230;
+    
+}
+#container{
+    min-height:80%;
+    /*adjust this style accordingly when implementing filters since it will skew this initial padding*/
+    padding-top: 100px;
+}
+table {
+    font-family: georgia, serif;
+    border-spacing: 10px; /*only px seems to work here*/
+    font-size: 90%;
+    /*width: 30%*/
+} 
+
+/*used while making the table*/
+td{
+    text-align: left;
+    padding-top: 0px;
+    color:rgb(231,236,195);
+}
+/*this makes the hyperlinks white*/
+a:link, a:visited{
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    text-decoration: none;
+}
+/*used when hovering over hyperlink*/
+a:hover {
+    color: rgb(154, 206, 96);
+}
+
+/*style the header of the website*/
+th{
+    text-align: left;
+    padding: 0%;
+    color: rgb(170,138,0);
+}
+#commonName{
+    text-align: center;
+    margin-left: 7%;
+    text-transform: uppercase;
+}
+#scientificName{
+    text-align: center;
+    text-transform: uppercase;
+}
+#status{
+    text-align: center;
+    text-transform: uppercase;
+}
+#video{
+    text-align: center;
+}

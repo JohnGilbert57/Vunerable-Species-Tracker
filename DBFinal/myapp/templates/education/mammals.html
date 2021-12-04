@@ -1,0 +1,56 @@
+{% load crispy_forms_tags%}
+{% block content %}
+{% load static %}
+{% load url_replace %}
+{% load sort_toggle %}
+<!DOCTYPE >
+<html>
+    <head>
+        <link rel = "stylesheet" type = "text/css" href="{% static 'myapp/css/mammalPage.css' %}">
+    </head>
+    <body>
+        <div id = header>
+            <p>DBFinal</p>  
+        </div>
+        <div id = credentials>
+            <p id = userName>{{user.username}}</p>
+            <a href = "{% url 'logout' %}">Logout</a>
+            <br>
+            <a href = "../education">Mammals List</a>
+        </div>
+        <div id = container>
+            {% for r in mammal %}
+            <h1 id = commonName>{{r.0}}</h1>
+            <h3 id = scientificName>{{r.1}}</h3>
+            <h3 id = status>{{r.2}}</h3>
+            <img src = {{r.3}} alt = "animal image">
+            <p id = video><iframe width="560" height="315" src="{{r.4}}"></iframe></p>
+            {% endfor %}
+        </div>
+        <div id = footer>
+            <table>
+                <tr>
+                    <th>Name</th> <!--The name of the individual-->
+                    <th>Email</th> <!--Their email (with hyperlink)-->
+                    <th>GitHub ID</th> <!--Their GitHub ID (with hyperlink)-->
+                </tr>
+                <tr>
+                    <td>Johnny Gilbert</td>
+                    <td><a href="mailto: jg480318@ohio.edu">jg480318@ohio.edu</a></td>
+                    <td><a href=https://github.com/JohnGilbert57>JohnGilbert57</a></td>
+                </tr>
+                <tr>
+                    <td>Nathan Bennett</td>
+                    <td><a href="mailto: nb566818@ohio.edu">nb566818@ohio.edu</a></td>
+                    <td><a href=https://github.com/nbennett2019>nbennett2019</a></td>
+                </tr>
+                <tr>
+                    <td>Nathaniel Buchanan</td>
+                    <td><a href="mailto: nb333218@ohio.edu">nb333218@ohio.edu</a></td>
+                    <td><a href=https://github.com/NathanielBuchanan>NathanielBuchanan</a></td></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>  
+{% endblock%}

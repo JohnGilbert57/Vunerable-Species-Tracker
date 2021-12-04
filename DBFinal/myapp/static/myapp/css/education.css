@@ -190,3 +190,9 @@ label{
 .paginate-container{
     margin-left: 18%;
 }
+#rowData a{
+    color: black;
+}
+#rowData a:hover{
+    color:blue;
+}

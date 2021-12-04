@@ -41,7 +41,7 @@
                 <th id = sHead><a href="?{% sort_toggle request 'group_sort' %}">Group</a></th>
                 {% for r in mammals %}
                 <tr>
-                    <td id = rowData>{{r.1}}</td>
+                    <td id = rowData><a href = "./mammal?id={{r.0}}">{{r.1}}</a></td>
                     <td id = rowData>{{r.2}}</td>
                     <td id = rowData>{{r.3}}</td>
                     <td id = rowData>{{r.4}}</td>
@@ -49,25 +49,6 @@
                 </tr>
                 {% endfor %}
             </table>
-           <!-- <div>
-                <span class="paginate-container">
-                {% if educatePaginate.has_previous %}
-                    <a class="paginate" href="?page=1">&laquo; first</a>
-                    <a class="paginate" href="?page={{ educatePaginate.previous_page_number }}">previous</a>
-                {% endif %}
-        
-                <span>
-                    Page {{ educatePaginate.number }} of {{ educatePaginate.paginator.num_pages }} 
-                </span>
-        
-                {% if educatePaginate.has_next %}
-                    <a class="paginate" href="?page={{ educatePaginate.next_page_number }}">next</a>
-                    <a class="paginate" href="?page={{ educatePaginate.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-                </span>
-            </div> 
-        </div>
-        -->
         <div id = footer>
             <table>
                 <tr>
