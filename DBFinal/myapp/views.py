@@ -199,13 +199,7 @@ def educationList(response):
             mammalsQuery += orderByInfo
 
         mammalsData = db_query(mammalsQuery, mammalsParams)
-        #p = Paginator(mammals,50)
-        #page_number = 1
-        #if "page" in response.GET:
-        #   page_number = response.GET['page']
-        #educatePaginate = p.get_page(page_number)
         context = {
-        #   'educatePaginate': educatePaginate,
             'filterListForm': filterListForm,
             'mammals': mammalsData
         }
