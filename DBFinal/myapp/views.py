@@ -165,21 +165,21 @@ def educationList(response):
         if response.method == "GET" and 'filterTextBox' in response.GET:
             fCName = response.GET['fCommonName']
             fCName = "%" + fCName + "%"
-            mammalsQuery += "and common_name like %s"
+            mammalsQuery += " and common_name like %s"
             mammalsParams.append(fCName)
 
             fSName = response.GET['fScientificName']
             fSName = "%" + fSName + "%"
-            mammalsQuery += "and scientific_name like %s"
+            mammalsQuery += " and scientific_name like %s"
             mammalsParams.append(fSName)
 
             if "fRegion" in response.GET and response.GET['fRegion'] != '0':
                 fReg = response.GET['fRegion']
-                mammalsQuery += 'and s.region_id = %s'
+                mammalsQuery += ' and s.region_id = %s'
                 mammalsParams.append(int(fReg))
             if "fConservationStatus" in response.GET and response.GET['fConservationStatus'] != '0':
                 fCStatus = response.GET['fConservationStatus']
-                mammalsQuery += 'and s.status_id = %s'
+                mammalsQuery += ' and s.status_id = %s'
                 mammalsParams.append(int(fCStatus))
         
         # Update this for OrderBy statement to allow ordering based on the URL
